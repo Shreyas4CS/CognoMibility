@@ -107,13 +107,14 @@ nav{
 .mode-tab.active.teach{background:var(--sun)}
 .mode-tab.active.drive{background:var(--mint)}
 
-/* env popup (auto weather change) */
-.env-icon{font-size:46px;text-align:center;animation:pop .35s cubic-bezier(.2,1.3,.4,1)}
-.env-modal p.lead{font-family:'Fredoka';font-weight:600;font-size:17px;text-align:center;margin:6px 0 16px}
-.env-chips{display:flex;flex-direction:column;gap:10px}
-.env-chips button{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:13px;font-family:'Fredoka';font-size:15px;font-weight:600;color:var(--ink);box-shadow:var(--sh-s);transition:.12s;text-align:left}
-.env-chips button:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);background:var(--sun)}
-.env-chips button.go{background:var(--mint)}
+/* weather selector */
+.wx-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px 14px}
+.wx-btn{background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:8px 16px;font-family:'Fredoka';font-size:15px;font-weight:600;color:var(--ink);box-shadow:2px 2px 0 var(--ink);transition:.12s}
+.wx-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.wx-btn.active{background:var(--sky);box-shadow:3px 3px 0 var(--ink)}
+.wx-btn[data-wx="night"].active{background:var(--grape);color:#fff}
+.wx-btn[data-wx="rain"].active{background:var(--sky)}
+.wx-btn[data-wx="fog"].active{background:#C8D8E8}
 
 /* main layout */
 main{max-width:1240px;margin:0 auto;padding:10px 20px 30px;display:grid;grid-template-columns:minmax(340px,500px) 1fr;gap:20px;align-items:start}
@@ -229,14 +230,22 @@ td .del{background:var(--coral);color:#fff;border:2px solid var(--ink);border-ra
 .btn-cancel{background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:12px 22px;font-size:17px;font-weight:700;box-shadow:var(--sh-s)}
 .btn-cancel:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
 
-/* ── FOOTER (minimal) ── */
-footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:16px 24px}
-.foot-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center}
-.foot-inner a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink-soft);font-weight:800;font-size:12.5px;transition:color .15s}
-.foot-inner a:hover{color:var(--coral)}
-.foot-inner img{height:24px;border-radius:6px;border:2px solid var(--ink)}
-.foot-dot{color:var(--ink-soft);font-size:12px}
-.foot-copy{font-size:11.5px;color:var(--ink-soft);font-weight:700}
+/* ── FOOTER ── */
+footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:30px 24px;margin-top:24px}
+.foot-inner{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.foot-brand{display:flex;align-items:center;gap:12px}
+.foot-brand a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);transition:transform .14s}
+.foot-brand a:hover{transform:scale(1.05)}
+.foot-brand img{height:34px;border-radius:8px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.foot-brand .fb{font-family:'Fredoka';font-size:13px;font-weight:600;background:var(--sun);border:2px solid var(--ink);border-radius:30px;padding:4px 12px;box-shadow:2px 2px 0 var(--ink)}
+.foot-name{font-family:'Fredoka';font-size:20px;font-weight:700;color:var(--ink)}
+.foot-name span{color:var(--coral)}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.foot-links a{font-weight:800;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.foot-links a:hover{color:var(--coral)}
+.foot-copy{font-size:12px;color:var(--ink-soft);font-weight:700}
+.foot-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.foot-pill{font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:999px;background:#fff;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
 
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 </style>
@@ -251,7 +260,7 @@ footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:1
   <div class="land">
     <div class="land-logo">
       <a href="https://www.cognospace.in" target="_blank">
-        <img src="cognospace-logo.png" alt="CognoSpace" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="cs-brand.png" alt="CognoSpace" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <span class="logo-fb" style="display:none">CognoSpace</span>
       </a>
     </div>
@@ -322,7 +331,13 @@ footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:1
     <button class="mode-tab drive"         id="tabDrive" onclick="setMode('drive')">🚗 Drive</button>
   </div>
 
-  <!-- Sky changes on its own now — no buttons! The car will ask what to do. -->
+  <!-- Weather selector (visible in both modes) -->
+  <div class="wx-row">
+    <button class="wx-btn active" data-wx="day"   onclick="setWx('day')">  ☀️ Day   </button>
+    <button class="wx-btn"        data-wx="night" onclick="setWx('night')">🌙 Night </button>
+    <button class="wx-btn"        data-wx="rain"  onclick="setWx('rain')"> 🌧 Rain  </button>
+    <button class="wx-btn"        data-wx="fog"   onclick="setWx('fog')">  🌫 Fog   </button>
+  </div>
 
   <main>
     <!-- LEFT: canvas -->
@@ -386,14 +401,25 @@ footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:1
   <!-- FOOTER -->
   <footer>
     <div class="foot-inner">
-      <a href="https://www.cognospace.in" target="_blank">
-        <img src="cognospace-logo.png" alt="CognoSpace" onerror="this.style.display='none'">
-        CognoMobility by CognoSpace
-      </a>
-      <span class="foot-dot">•</span>
-      <a href="https://www.cognospace.in" target="_blank">🌐 cognospace.in</a>
-      <span class="foot-dot">•</span>
-      <span class="foot-copy">© 2025 · All rights reserved</span>
+      <div class="foot-brand">
+        <a href="https://www.cognospace.in" target="_blank">
+          <img src="cognospace-logo.png" alt="CognoSpace" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+          <span class="fb" style="display:none">CognoSpace</span>
+        </a>
+      </div>
+      <div class="foot-name">Cogno<span>Mobility</span> by CognoSpace</div>
+      <div class="foot-pills">
+        <span class="foot-pill">🚗 Self-Driving AI</span>
+        <span class="foot-pill">🎓 STEAM Education</span>
+        <span class="foot-pill">🧠 Machine Learning</span>
+        <span class="foot-pill">📡 Lidar Simulation</span>
+      </div>
+      <div class="foot-links">
+        <a href="https://www.cognospace.in" target="_blank">🌐 cognospace.in</a>
+        <a href="https://www.cognospace.in" target="_blank">📚 More projects</a>
+        <a href="https://www.cognospace.in" target="_blank">📧 Contact us</a>
+      </div>
+      <div class="foot-copy">© 2025 CognoSpace · All rights reserved · Made with ❤️ for curious minds</div>
     </div>
   </footer>
 </div>
@@ -423,16 +449,6 @@ footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:1
       <button class="btn-cancel" onclick="closeEndConfirm()">Cancel</button>
       <button class="btn-confirm-end" onclick="confirmEnd()">Yes, end it!</button>
     </div>
-  </div>
-</div>
-
-<!-- Environment change popup -->
-<div class="overlay hidden" id="envModal">
-  <div class="modal end-modal env-modal">
-    <div class="env-icon" id="envIcon">🌙</div>
-    <h2 id="envTitle">It's getting dark!</h2>
-    <p class="lead" id="envLead">What should I do?</p>
-    <div class="env-chips" id="envChips"></div>
   </div>
 </div>
 
@@ -541,8 +557,6 @@ let scanT=0,shake=0,flash=0,frame=0,lidarFound=0,bubble=null;
 let stats={seen:0,known:0,guess:0,unknown:0};
 let spawnTimer=null,holdTimer=null;
 let rainDrops=[],lightningT=0,nightAmt=0;
-let envState={lights:false,fog:false,wipers:false};
-let wxTimer=null,envOpen=false,wiperT=0;
 
 /* ──────────── Helpers ──────────── */
 const $=id=>document.getElementById(id);
@@ -559,8 +573,8 @@ const WARM=['red','orange','yellow'],COOL=['green','blue','cyan'];
 function colorSim(a,b){if(a===b)return 1;const g=c=>WARM.includes(c)?'w':COOL.includes(c)?'c':'n';return g(a)===g(b)?.5:0}
 function sim(a,b){let w=0,t=0;const add=(x,m)=>{t+=x;w+=x*m};add(4,a.cat===b.cat?1:0);add(2.5,colorSim(a.color,b.color));add(1,a.size===b.size?1:0);return w/t}
 function exact(f){return KB.find(e=>e.cat===f.cat&&e.color===f.color&&e.size===f.size)||null}
-function nearest(f){let best=null,bs=-1;KB.forEach(e=>{if(e.cat==='env')return;const s=sim(f,e);if(s>bs){bs=s;best=e}});return{entry:best,sim:bs}}
-function describe(f){if(f.cat==='env')return'🌦 '+(ENV_INFO[f.cond]?ENV_INFO[f.cond].label:f.cond);return f.size+' · '+f.color+' · '+SHAPE[f.cat]}
+function nearest(f){let best=null,bs=-1;KB.forEach(e=>{const s=sim(f,e);if(s>bs){bs=s;best=e}});return{entry:best,sim:bs}}
+function describe(f){return f.size+' · '+f.color+' · '+SHAPE[f.cat]}
 function parseMotion(text){const t=(text||'').toLowerCase();
   if(/\b(stop|brake|halt|wait|red)\b/.test(t))return'stop';
   if(/\b(slow|reduce|careful|caution|ease|yield|gentle)\b/.test(t))return'slow';
@@ -573,6 +587,7 @@ function combine(motions){return motions.sort((a,b)=>MRANK[b]-MRANK[a])[0]||'go'
 /* ──────────── Weather ──────────── */
 function setWx(wx,silent){
   currentWx=wx;
+  document.querySelectorAll('.wx-btn').forEach(b=>b.classList.toggle('active',b.dataset.wx===wx));
   const labels={day:'☀️ Day',night:'🌙 Night',rain:'🌧 Rain',fog:'🌫 Fog'};
   $('hudWx').textContent=labels[wx];
   $('hudMode').className='htag '+(mode==='drive'?'drive':'teach')+(wx==='night'?' night':'');
@@ -580,74 +595,6 @@ function setWx(wx,silent){
   const sess=loadSession();if(sess){sess.wx=wx;saveSession(sess)}
   if(!silent)toast({day:'☀️ Sunny day!',night:'🌙 Night mode on!',rain:'🌧 Rain starting!',fog:'🌫 Foggy road!'}[wx],'think');
 }
-
-/* ──────────── Automatic weather → action-box teaching ──────────── */
-const WX_SEQ=['day','rain','night','fog'];
-const ENV_INFO={
-  night:{icon:'🌙',title:'It\'s getting dark!',lead:'It\'s hard to see now. What should I do?',on:'🔆 Turn on the headlights',off:'😬 Keep driving with no lights',label:'Dark sky'},
-  fog:  {icon:'🌫',title:'Fog rolling in!',     lead:'Visibility is low. What should I do?',on:'🔆 Turn on the fog lights',off:'😬 Keep driving with no fog lights',label:'Foggy weather'},
-  rain: {icon:'🌧',title:'It started raining!', lead:'The windscreen is getting wet. What should I do?',on:'🌬 Turn on the wipers',off:'😬 Keep driving with no wipers',label:'Rainy weather'},
-  day:  {icon:'☀️',title:'The sky cleared up!', lead:'It\'s bright and sunny now. What should I do?',on:'✅ Turn everything off',off:'🙂 Leave everything as it is',label:'Sunny day'}
-};
-function scheduleWxChange(){clearTimeout(wxTimer);wxTimer=setTimeout(triggerWxChange,26000+Math.random()*9000)}
-function triggerWxChange(){
-  if(!running||envOpen||phase!=='driving'){scheduleWxChange();return}
-  const next=pick(WX_SEQ.filter(w=>w!==currentWx));
-  setWx(next,true);
-  openEnvPopup(next);
-  scheduleWxChange();
-}
-function envFind(cond){return KB.find(e=>e.cat==='env'&&e.cond===cond)}
-function openEnvPopup(cond){
-  envOpen=true;
-  clearTimeout(spawnTimer);clearTimeout(holdTimer);
-  envPrevSpeed=targetSpeed;targetSpeed=0;
-  const info=ENV_INFO[cond];
-  $('envIcon').textContent=info.icon;
-  $('envTitle').textContent=info.title;
-  const taught=envFind(cond);
-  if(taught){
-    $('envLead').textContent='You taught me this already! 🧠';
-    $('envChips').innerHTML='<button class="go" onclick="applyEnvTaught(\''+cond+'\')">'+taught.action+' — Got it!</button>';
-  }else{
-    $('envLead').textContent=info.lead;
-    $('envChips').innerHTML=
-      '<button class="go" onclick="chooseEnv(\''+cond+'\',\'on\')">'+info.on+'</button>'+
-      '<button onclick="chooseEnv(\''+cond+'\',\'off\')">'+info.off+'</button>';
-  }
-  $('envModal').classList.remove('hidden');
-}
-function closeEnvPopup(){
-  envOpen=false;
-  $('envModal').classList.add('hidden');
-  targetSpeed=envPrevSpeed??CRUISE;
-  if(running&&phase==='driving'&&!sc)scheduleSpawn(700);
-}
-function applyEnvAction(cond,onOff){
-  if(cond==='night')envState.lights=(onOff==='on');
-  else if(cond==='fog')envState.fog=(onOff==='on');
-  else if(cond==='rain')envState.wipers=(onOff==='on');
-  else if(cond==='day'&&onOff==='on'){envState.lights=false;envState.fog=false;envState.wipers=false}
-}
-function applyEnvTaught(cond){
-  const e=envFind(cond);if(!e)return;
-  applyEnvAction(cond,e.onOff);
-  beep(700,.1);
-  log('🧠 Remembered: <b>'+ENV_INFO[cond].label+'</b> → '+e.action);
-  toast('Doing what you taught me! 🧠','happy');
-  closeEnvPopup();
-}
-function chooseEnv(cond,onOff){
-  const info=ENV_INFO[cond];
-  applyEnvAction(cond,onOff);
-  KB.push({cat:'env',cond,onOff,label:info.label,action:onOff==='on'?info.on:info.off,motion:'env'});
-  updateKB();persistKB();
-  beep(660,.1);setTimeout(()=>beep(880,.12),100);confetti(24);
-  log('📥 Learned: when it\'s <b>'+info.label+'</b> → '+(onOff==='on'?info.on:info.off));
-  toast('Got it! I\'ll remember that 🧠','happy');
-  closeEnvPopup();
-}
-let envPrevSpeed=CRUISE;
 
 /* ──────────── Mode ──────────── */
 function setMode(m){
@@ -666,12 +613,12 @@ function setMode(m){
   if(m==='drive'){
     if(!KB.length)toast('Teach me something first! 🎓','think');
     running=true;phase='driving';targetSpeed=CRUISE;$('btnDrive').textContent='⏸ Pause';
-    scheduleSpawn(900);scheduleWxChange();
+    scheduleSpawn(900);
   }
 }
 
 /* ──────────── Teach ──────────── */
-function startTeach(){running=true;$('btnStart').disabled=true;$('btnStop').disabled=false;phase='driving';targetSpeed=CRUISE;scheduleSpawn(700);scheduleWxChange();toast('Driving! Watch the road… 👀','happy')}
+function startTeach(){running=true;$('btnStart').disabled=true;$('btnStop').disabled=false;phase='driving';targetSpeed=CRUISE;scheduleSpawn(700);toast('Driving! Watch the road… 👀','happy')}
 function stopTeach(){running=false;$('btnStart').disabled=false;$('btnStop').disabled=true;clearTimeout(spawnTimer);clearTimeout(holdTimer);targetSpeed=0;phase='idle';sc=null;
   resetTeachBody('<div class="scan-strip"><div class="radar" style="border-color:var(--ink-soft)"></div><div><b style="font-family:Fredoka;font-size:15px">Paused.</b><div class="muted">Taught <b>'+KB.length+'</b> thing(s). Press Start to keep going.</div></div></div>')}
 function resetTeachBody(html){$('teachBody').innerHTML=html||'<div class="scan-strip"><div class="radar"></div><div><b style="font-family:Fredoka;font-size:15px">Driving &amp; scanning…</b><div class="muted">Lidar is looking for objects on the road.</div></div></div>'}
@@ -759,7 +706,7 @@ function persistKB(){const sess=loadSession();if(sess){sess.KB=KB;saveSession(se
 /* ──────────── Drive ──────────── */
 function toggleDrive(){
   running=!running;$('btnDrive').textContent=running?'⏸ Pause':'▶ Start driving';
-  if(running){if(phase==='idle'){phase='driving';targetSpeed=CRUISE;scheduleSpawn(700)}else if(phase==='driving'){targetSpeed=CRUISE;if(!sc)scheduleSpawn(300)}scheduleWxChange()}
+  if(running){if(phase==='idle'){phase='driving';targetSpeed=CRUISE;scheduleSpawn(700)}else if(phase==='driving'){targetSpeed=CRUISE;if(!sc)scheduleSpawn(300)}}
   else if(phase==='driving')targetSpeed=0;
 }
 function driveTrigger(detect){
@@ -935,19 +882,16 @@ function draw(){
 
   /* ── Night vignette with headlight cone ── */
   if(nightAmt>.04){
-    // headlight beams — only if the car has been taught to turn them on
-    if(envState.lights){
-      ctx.save();ctx.globalCompositeOperation='lighter';
-      const beam=ctx.createRadialGradient(carX,CAR_Y-CAR_H/2,10,carX,CAR_Y-100,230);
-      beam.addColorStop(0,'rgba(255,240,180,'+(0.28*nightAmt)+')');beam.addColorStop(1,'rgba(255,240,180,0)');
-      ctx.fillStyle=beam;
-      ctx.beginPath();ctx.moveTo(carX-20,CAR_Y-CAR_H/2);ctx.lineTo(carX-70,CAR_Y-280);ctx.lineTo(carX+70,CAR_Y-280);ctx.lineTo(carX+20,CAR_Y-CAR_H/2);ctx.closePath();ctx.fill();
-      ctx.restore();
-    }
-    // darkness overlay — darker if no lights are on yet
-    const darkAmt=envState.lights?0.62:0.8;
+    // headlight beams
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    const beam=ctx.createRadialGradient(carX,CAR_Y-CAR_H/2,10,carX,CAR_Y-100,230);
+    beam.addColorStop(0,'rgba(255,240,180,'+(0.28*nightAmt)+')');beam.addColorStop(1,'rgba(255,240,180,0)');
+    ctx.fillStyle=beam;
+    ctx.beginPath();ctx.moveTo(carX-20,CAR_Y-CAR_H/2);ctx.lineTo(carX-70,CAR_Y-280);ctx.lineTo(carX+70,CAR_Y-280);ctx.lineTo(carX+20,CAR_Y-CAR_H/2);ctx.closePath();ctx.fill();
+    ctx.restore();
+    // darkness overlay
     const dark=ctx.createRadialGradient(carX,CAR_Y-60,60,carX,CAR_Y-60,300);
-    dark.addColorStop(0,'rgba(5,8,20,0)');dark.addColorStop(.5,'rgba(5,8,20,'+(0.22*nightAmt)+')');dark.addColorStop(1,'rgba(5,8,20,'+(darkAmt*nightAmt)+')');
+    dark.addColorStop(0,'rgba(5,8,20,0)');dark.addColorStop(.5,'rgba(5,8,20,'+(0.22*nightAmt)+')');dark.addColorStop(1,'rgba(5,8,20,'+(0.62*nightAmt)+')');
     ctx.fillStyle=dark;ctx.fillRect(0,0,W,H);
   }
 
@@ -1112,9 +1056,6 @@ function drawCar(){
   rr(x-14,y+11,28,13,5,'#A8D8F0');
   /* body outline */
   ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-CAR_W/2,y-CAR_H/2,CAR_W,CAR_H,15);ctx.stroke();
-  /* side mirrors */
-  ctx.fillStyle='#D8E2EE';rr(x-CAR_W/2-6,y-25,7,8,3,'#D8E2EE');rr(x+CAR_W/2-1,y-25,7,8,3,'#D8E2EE');
-  ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1;ctx.strokeRect(x-CAR_W/2-6,y-25,7,8);ctx.strokeRect(x+CAR_W/2-1,y-25,7,8);
   /* wheel arches */
   ctx.fillStyle='rgba(0,0,0,.18)';ctx.fillRect(x-CAR_W/2,y-11,8,16);ctx.fillRect(x+CAR_W/2-8,y-11,8,16);
   /* wheels */
@@ -1129,34 +1070,13 @@ function drawCar(){
   ctx.fillStyle=lidarCol;ctx.beginPath();ctx.arc(x,y-3,3.5,0,Math.PI*2);ctx.fill();
   /* lidar blink glow */
   if(Math.floor(frame/12)%2===0){ctx.save();ctx.globalAlpha=.35;const lg=ctx.createRadialGradient(x,y-3,2,x,y-3,14);lg.addColorStop(0,lidarCol);lg.addColorStop(1,lidarCol+'00');ctx.fillStyle=lg;ctx.beginPath();ctx.arc(x,y-3,14,0,Math.PI*2);ctx.fill();ctx.restore()}
-  /* headlights — bright if taught to switch on at night, otherwise dim */
-  const lightsOn=currentWx==='night'&&envState.lights;
-  ctx.fillStyle=lightsOn?'#FFFACC':(currentWx==='night'?'#3A3F55':'#FFE8A8');
+  /* headlights */
+  ctx.fillStyle=currentWx==='night'?'#FFFACC':'#FFE8A8';
   ctx.fillRect(x-CAR_W/2,y-CAR_H/2-1,10,5);ctx.fillRect(x+CAR_W/2-10,y-CAR_H/2-1,10,5);
-  if(lightsOn){
+  if(currentWx==='night'){
     ctx.save();ctx.globalCompositeOperation='lighter';
     ctx.fillStyle='rgba(255,248,180,.18)';ctx.beginPath();ctx.moveTo(x-CAR_W/2+5,y-CAR_H/2);ctx.lineTo(x-CAR_W/2-10,y-CAR_H/2-30);ctx.lineTo(x-CAR_W/2+18,y-CAR_H/2-30);ctx.closePath();ctx.fill();
     ctx.beginPath();ctx.moveTo(x+CAR_W/2-5,y-CAR_H/2);ctx.lineTo(x+CAR_W/2-18,y-CAR_H/2-30);ctx.lineTo(x+CAR_W/2+10,y-CAR_H/2-30);ctx.closePath();ctx.fill();
-    ctx.restore();
-  }
-  /* fog lamps — small amber lamps low on the bumper, lit if taught during fog */
-  const fogOn=currentWx==='fog'&&envState.fog;
-  ctx.fillStyle=fogOn?'#FFB23F':'#C8A878';
-  ctx.beginPath();ctx.arc(x-CAR_W/2+5,y-CAR_H/2+7,3,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(x+CAR_W/2-5,y-CAR_H/2+7,3,0,Math.PI*2);ctx.fill();
-  if(fogOn){
-    ctx.save();ctx.globalCompositeOperation='lighter';
-    [[x-CAR_W/2+5],[x+CAR_W/2-5]].forEach(([fx])=>{const fg=ctx.createRadialGradient(fx,y-CAR_H/2+7,1,fx,y-CAR_H/2+7,12);fg.addColorStop(0,'rgba(255,178,63,.5)');fg.addColorStop(1,'rgba(255,178,63,0)');ctx.fillStyle=fg;ctx.beginPath();ctx.arc(fx,y-CAR_H/2+7,12,0,Math.PI*2);ctx.fill()});
-    ctx.restore();
-  }
-  /* wipers — sweep over the windshield, only if taught during rain */
-  if(currentWx==='rain'&&envState.wipers){
-    wiperT+=.07;const sweep=Math.sin(wiperT)*1.0;
-    ctx.save();ctx.strokeStyle='#2B2A4C';ctx.lineWidth=2;ctx.lineCap='round';
-    [[x-9,y-20],[x+9,y-20]].forEach(([px,py],i)=>{
-      const ang=-Math.PI/2+sweep*(i===0?1:-1);
-      ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+Math.cos(ang)*13,py+Math.sin(ang)*13);ctx.stroke();
-    });
     ctx.restore();
   }
   /* brake lights */
