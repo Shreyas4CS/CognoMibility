@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CognoMobility by CognoSpace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coral:#FF6B6B; --sky:#34C6EC; --sun:#FFD23F; --mint:#3DD9A8;
+  --grape:#9B7EF0; --pink:#FF8FCF; --orange:#FF7A3D;
+  --ink:#2B2A4C; --ink-soft:#5b5980; --cream:#FFF9F0; --card:#fff;
+  --line:#2B2A4C; --sh:5px 5px 0 var(--ink); --sh-s:3px 3px 0 var(--ink);
+  --r:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{
+  font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:var(--cream);
+  background-image:
+    radial-gradient(circle at 12% 18%,rgba(255,210,63,.38),transparent 30%),
+    radial-gradient(circle at 88% 12%,rgba(52,198,236,.30),transparent 32%),
+    radial-gradient(circle at 80% 85%,rgba(255,143,207,.28),transparent 34%),
+    radial-gradient(circle at 15% 90%,rgba(61,217,168,.28),transparent 32%);
+  background-attachment:fixed;
+}
+h1,h2,h3,h4,.fh{font-family:'Fredoka',sans-serif;font-weight:600;letter-spacing:.3px}
+button{font-family:'Fredoka',sans-serif;cursor:pointer;border:none}
+input,select{font-family:'Nunito',sans-serif}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:var(--grape);border-radius:30px;border:2px solid var(--ink)}
+
+/* ── PAGE VISIBILITY ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ══════════════════════════════════════
+   LANDING PAGE
+══════════════════════════════════════ */
+.land{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;gap:0}
+.land-logo{margin-bottom:10px}
+.land-logo a{display:inline-flex;align-items:center;text-decoration:none;transition:transform .14s}
+.land-logo a:hover{transform:scale(1.06)}
+.land-logo img{height:52px;width:auto;border-radius:12px;border:2px solid var(--ink);box-shadow:var(--sh-s)}
+.land-logo .logo-fb{font-family:'Fredoka';font-size:18px;font-weight:600;background:var(--sun);border:2px solid var(--ink);border-radius:30px;padding:7px 18px;box-shadow:var(--sh-s)}
+.land-hero{text-align:center;max-width:640px;margin-bottom:32px}
+.land-hero h1{font-size:clamp(36px,8vw,76px);line-height:.95;color:var(--ink);text-shadow:4px 4px 0 #fff,8px 8px 0 rgba(43,42,76,.10)}
+.land-hero h1 .hi{color:var(--coral)}
+.land-hero h1 .by{display:block;font-size:.45em;color:var(--ink-soft);letter-spacing:.02em;margin-top:8px}
+.land-hero p{font-size:clamp(15px,2.2vw,19px);color:var(--ink-soft);font-weight:700;margin-top:14px;line-height:1.5}
+.land-car{font-size:clamp(60px,14vw,120px);line-height:1;animation:bob 2.6s ease-in-out infinite;display:block;margin:8px 0 0}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.land-road{width:min(380px,90%);height:14px;background:var(--ink);border-radius:8px;margin:0 auto 32px;position:relative}
+.land-road::before,.land-road::after{content:"";position:absolute;top:50%;transform:translateY(-50%);width:44px;height:5px;background:var(--sun);border-radius:4px}
+.land-road::before{left:50px}.land-road::after{right:50px}
+
+/* Session card */
+.session-wrap{width:100%;max-width:500px}
+.session-card{background:var(--card);border:3px solid var(--ink);border-radius:28px;padding:32px 30px;box-shadow:var(--sh);animation:rise .6s .1s both cubic-bezier(.22,1,.36,1)}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.session-card h2{font-size:28px;margin-bottom:4px}
+.session-card .sub{color:var(--ink-soft);font-weight:700;font-size:14px;margin-bottom:22px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:800;font-size:13px}
+.field input{padding:13px 15px;border:3px solid var(--ink);border-radius:16px;font-size:15px;font-weight:700;color:var(--ink);background:#fff;transition:.15s;box-shadow:var(--sh-s)}
+.field input:focus{outline:none;background:#FFFDF5;box-shadow:5px 5px 0 var(--ink)}
+.field .err-msg{font-size:12px;color:var(--coral);font-weight:700;display:none}
+.field.err input{border-color:var(--coral)}
+.field.err .err-msg{display:block}
+.btn-start{width:100%;margin-top:18px;padding:18px;border:3px solid var(--ink);border-radius:20px;cursor:pointer;background:linear-gradient(180deg,var(--mint),#28B98A);color:var(--ink);font-size:22px;font-weight:700;box-shadow:0 7px 0 rgba(43,42,76,.35);transition:.12s}
+.btn-start:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(43,42,76,.35)}
+.btn-start:active{transform:translateY(3px);box-shadow:0 4px 0 rgba(43,42,76,.35)}
+
+/* ══════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════ */
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;padding:12px 24px;
+  background:rgba(255,249,240,.88);backdrop-filter:blur(8px);border-bottom:3px solid var(--ink);
+  box-shadow:0 4px 0 rgba(43,42,76,.12)
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .cogno-logo{display:inline-flex;align-items:center;text-decoration:none;transition:transform .14s}
+.brand .cogno-logo:hover{transform:scale(1.06)}
+.brand .cogno-logo img{height:40px;width:auto;border-radius:8px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.brand .cogno-logo .logo-fb{font-family:'Fredoka';font-size:14px;font-weight:600;background:var(--sun);border:2px solid var(--ink);border-radius:30px;padding:5px 12px;box-shadow:2px 2px 0 var(--ink)}
+.brand-text .title{font-family:'Fredoka';font-size:26px;font-weight:700;line-height:1;color:var(--ink)}
+.brand-text .title em{font-style:normal;color:var(--coral)}
+.brand-text .session-info{font-size:11.5px;color:var(--ink-soft);font-weight:800;letter-spacing:.04em}
+.nav-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pill-stat{font-family:'Fredoka';font-weight:600;font-size:14px;background:#fff;border:2px solid var(--ink);border-radius:30px;padding:8px 14px;box-shadow:2px 2px 0 var(--ink)}
+.pill-stat b{color:var(--coral)}
+.btn-end{background:var(--coral);color:#fff;border:3px solid var(--ink);border-radius:30px;padding:10px 18px;font-size:15px;font-weight:700;box-shadow:var(--sh-s);transition:.12s}
+.btn-end:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.btn-end:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+
+/* mode tabs */
+.mode-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding:20px 16px 8px}
+.mode-tab{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--ink);border-radius:26px;padding:13px 22px;font-size:18px;font-weight:700;color:var(--ink);box-shadow:var(--sh);transition:.12s}
+.mode-tab:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.mode-tab:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.mode-tab.active.teach{background:var(--sun)}
+.mode-tab.active.drive{background:var(--mint)}
+
+/* weather selector */
+.wx-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px 14px}
+.wx-btn{background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:8px 16px;font-family:'Fredoka';font-size:15px;font-weight:600;color:var(--ink);box-shadow:2px 2px 0 var(--ink);transition:.12s}
+.wx-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.wx-btn.active{background:var(--sky);box-shadow:3px 3px 0 var(--ink)}
+.wx-btn[data-wx="night"].active{background:var(--grape);color:#fff}
+.wx-btn[data-wx="rain"].active{background:var(--sky)}
+.wx-btn[data-wx="fog"].active{background:#C8D8E8}
+
+/* main layout */
+main{max-width:1240px;margin:0 auto;padding:10px 20px 30px;display:grid;grid-template-columns:minmax(340px,500px) 1fr;gap:20px;align-items:start}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:0}
+
+/* Simulation */
+.sim{position:relative;overflow:hidden;border-radius:calc(var(--r) - 2px)}
+canvas#cv{display:block;width:100%;height:auto;border-radius:calc(var(--r) - 4px)}
+.hud{position:absolute;top:11px;left:11px;right:11px;display:flex;gap:7px;align-items:center;pointer-events:none;flex-wrap:wrap}
+.hud .htag{font-family:'Fredoka';font-weight:600;font-size:13px;background:rgba(255,249,240,.93);border:2px solid var(--ink);padding:5px 12px;border-radius:999px;display:flex;align-items:center;gap:5px;box-shadow:2px 2px 0 rgba(43,42,76,.2)}
+.hud .htag.teach{border-color:var(--sky);color:#1A7EA0}
+.hud .htag.drive{border-color:var(--mint);color:#188A67}
+.hud .htag.night{background:rgba(43,42,76,.88);color:var(--sun);border-color:var(--grape)}
+.hud .hsp{flex:1}
+#toast{position:absolute;left:50%;bottom:16px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-family:'Fredoka';font-weight:600;font-size:14px;padding:11px 20px;border-radius:30px;opacity:0;transition:.25s;max-width:90%;text-align:center;pointer-events:none;border:3px solid #fff;box-shadow:4px 4px 0 rgba(0,0,0,.25)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.happy{background:var(--mint);color:var(--ink)}
+#toast.think{background:var(--grape);color:#fff}
+#toast.oops{background:var(--coral);color:#fff}
+
+/* Panel */
+.panel{padding:22px;display:flex;flex-direction:column;gap:15px}
+.panel h2{font-size:22px;display:flex;align-items:center;gap:9px;margin-bottom:2px}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:800}
+.muted{color:var(--ink-soft);font-weight:700;font-size:13px;line-height:1.55}
+.muted b{color:var(--ink)}
+
+.row2{display:grid;grid-template-columns:1fr auto;gap:10px}
+.btn-play{background:linear-gradient(180deg,var(--mint),#28B98A);color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:14px 18px;font-size:16px;font-weight:700;box-shadow:0 6px 0 rgba(43,42,76,.3);transition:.12s}
+.btn-play:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(43,42,76,.3)}
+.btn-play:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(43,42,76,.3)}
+.btn-play:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-halt{background:#fff;border:2.5px solid var(--ink);color:var(--ink-soft);border-radius:16px;padding:14px 18px;font-size:15px;font-weight:700;box-shadow:2px 2px 0 var(--ink);transition:.12s}
+.btn-halt:hover{border-color:var(--coral);color:var(--coral)}
+.btn-halt:active{transform:translate(1px,1px)}
+.btn-halt:disabled{opacity:.4;cursor:not-allowed}
+.btn-ok{width:100%;background:linear-gradient(180deg,var(--orange),#E8591A);color:#fff;border:3px solid var(--ink);border-radius:18px;padding:15px;font-size:19px;box-shadow:0 6px 0 rgba(43,42,76,.3);transition:.12s;margin-top:4px}
+.btn-ok:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(43,42,76,.3)}
+.btn-ok:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(43,42,76,.3)}
+
+/* detect / ask cards */
+.detect-head{font-family:'Fredoka';font-weight:700;font-size:18px;display:flex;align-items:center;gap:8px}
+.scan-strip{display:flex;align-items:center;gap:12px;background:var(--cream);border:3px solid var(--ink);border-radius:20px;padding:16px;box-shadow:var(--sh-s)}
+.scan-strip .radar{width:44px;height:44px;border-radius:50%;border:3px solid var(--sky);position:relative;flex:none}
+.scan-strip .radar::after{content:"";position:absolute;inset:3px;border-radius:50%;border-top:3px solid var(--sky);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.ocard{background:#fff;border:3px solid var(--ink);border-radius:22px;padding:15px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh-s);animation:pop .3s cubic-bezier(.2,1.3,.4,1)}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.ocard.known{border-color:var(--mint);background:#F0FBF5}
+.ocard .otop{display:flex;align-items:center;gap:13px}
+.ocard .em{width:52px;height:52px;border-radius:14px;background:var(--cream);display:grid;place-items:center;font-size:32px;flex:none;border:2px solid var(--ink)}
+.ocard .lidar-txt{font-size:12px;color:var(--ink-soft);font-weight:800;margin-top:3px}
+.ocard .lidar-txt b{color:var(--sky)}
+.ocard .knownmsg{font-family:'Fredoka';font-weight:700;font-size:16px;color:#188A67}
+.fi label{display:block;font-weight:800;font-size:12.5px;margin-bottom:5px}
+.fi input{width:100%;padding:12px 14px;border:2.5px solid var(--ink);border-radius:14px;font-size:14.5px;font-weight:700;color:var(--ink);background:#fff;transition:.15s;box-shadow:2px 2px 0 var(--ink)}
+.fi input:focus{outline:none;background:#FFFDF5;box-shadow:4px 4px 0 var(--ink)}
+.fi+.fi{margin-top:9px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.chips button{font-size:12px;font-weight:700;background:#fff;border:2px solid var(--ink);color:var(--ink-soft);padding:5px 12px;border-radius:999px;box-shadow:2px 2px 0 var(--ink);transition:.1s}
+.chips button:hover{background:var(--sun);transform:translate(-1px,-1px)}
+
+/* kmap */
+.kmap{display:flex;flex-wrap:wrap;gap:7px}
+.kmap .k{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:#fff;border:2px solid var(--ink);color:var(--ink-soft);box-shadow:2px 2px 0 var(--ink)}
+.kmap .k.has{background:var(--sun);color:var(--ink)}
+
+/* drive brain */
+.brain{background:var(--cream);border:3px solid var(--ink);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--sh-s)}
+.brain .think{font-family:'Fredoka';font-weight:700;font-size:16px;display:flex;gap:8px;align-items:flex-start;color:var(--grape)}
+.recog{display:flex;align-items:center;gap:10px;background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:9px 12px;box-shadow:2px 2px 0 var(--ink)}
+.recog .em{font-size:26px}
+.recog .rt{flex:1}
+.recog .rt b{font-size:13.5px;font-weight:800}
+.recog .rt span{display:block;font-size:11.5px;color:var(--ink-soft);font-weight:700}
+.badge{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;border:2px solid var(--ink)}
+.badge.known{background:var(--mint);color:var(--ink)}
+.badge.guess{background:var(--grape);color:#fff}
+.badge.unknown{background:var(--coral);color:#fff}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--cream);border:2.5px solid var(--ink);border-radius:15px;padding:10px 6px;text-align:center;box-shadow:2px 2px 0 var(--ink)}
+.stat b{display:block;font-size:22px;font-family:'Fredoka'}
+.stat span{font-size:10.5px;color:var(--ink-soft);font-weight:800}
+.stat.kn b{color:#188A67}.stat.gu b{color:var(--grape)}.stat.un b{color:var(--coral)}
+
+#log{display:flex;flex-direction:column;gap:4px;max-height:100px;overflow-y:auto}
+#log .e{font-size:11.5px;color:var(--ink-soft);padding:3px 0;border-bottom:2px dashed var(--line);border-opacity:.2;font-weight:700}
+#log .e b{color:var(--ink)}
+
+/* ── Overlays ── */
+.overlay{position:fixed;inset:0;background:rgba(43,42,76,.52);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px}
+.overlay.hidden{display:none}
+.modal{background:var(--cream);border:4px solid var(--ink);border-radius:28px;max-width:560px;width:100%;padding:30px;max-height:90vh;overflow-y:auto;box-shadow:8px 8px 0 var(--ink);position:relative}
+.modal::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:var(--grape)}
+.modal h2{font-size:27px;margin-bottom:4px}
+.modal .sub{color:var(--ink-soft);font-weight:700;font-size:14px;margin-bottom:14px}
+.modal-x{position:absolute;top:14px;right:14px;background:var(--coral);color:#fff;border:3px solid var(--ink);width:38px;height:38px;border-radius:50%;font-size:18px;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left;padding:8px 6px;border-bottom:2px solid var(--ink);font-weight:800}
+td{padding:8px 6px;border-bottom:1.5px dashed rgba(43,42,76,.15);font-weight:700}
+td .del{background:var(--coral);color:#fff;border:2px solid var(--ink);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.modal-btns{display:flex;gap:10px;margin-top:18px}
+
+/* End-session confirm */
+.end-modal{max-width:380px;text-align:center}
+.end-modal h2{margin-bottom:12px}
+.end-modal p{font-weight:700;color:var(--ink-soft);margin-bottom:20px;line-height:1.5}
+.end-btns{display:flex;gap:12px;justify-content:center}
+.btn-confirm-end{background:var(--coral);color:#fff;border:3px solid var(--ink);border-radius:999px;padding:12px 26px;font-size:17px;font-weight:700;box-shadow:var(--sh-s);transition:.12s}
+.btn-confirm-end:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.btn-cancel{background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:12px 22px;font-size:17px;font-weight:700;box-shadow:var(--sh-s)}
+.btn-cancel:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+
+/* ── FOOTER ── */
+footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:30px 24px;margin-top:24px}
+.foot-inner{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.foot-brand{display:flex;align-items:center;gap:12px}
+.foot-brand a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);transition:transform .14s}
+.foot-brand a:hover{transform:scale(1.05)}
+.foot-brand img{height:34px;border-radius:8px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.foot-brand .fb{font-family:'Fredoka';font-size:13px;font-weight:600;background:var(--sun);border:2px solid var(--ink);border-radius:30px;padding:4px 12px;box-shadow:2px 2px 0 var(--ink)}
+.foot-name{font-family:'Fredoka';font-size:20px;font-weight:700;color:var(--ink)}
+.foot-name span{color:var(--coral)}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.foot-links a{font-weight:800;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.foot-links a:hover{color:var(--coral)}
+.foot-copy{font-size:12px;color:var(--ink-soft);font-weight:700}
+.foot-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.foot-pill{font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:999px;background:#fff;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<!-- ══════════════════════════════════════
+     PAGE 0: LANDING
+══════════════════════════════════════ -->
+<div id="pageLand" class="page active">
+  <div class="land">
+    <div class="land-logo">
+      <a href="https://www.cognospace.in" target="_blank">
+        <img src="cs-brand.png" alt="CognoSpace" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fb" style="display:none">CognoSpace</span>
+      </a>
+    </div>
+    <div class="land-hero">
+      <h1><span class="hi">CognoMobility</span><span class="by">by CognoSpace</span></h1>
+      <p>A real-time AI simulator where <b>you</b> teach a self-driving car what to do — one object at a time.</p>
+    </div>
+    <span class="land-car">🚗</span>
+    <div class="land-road"></div>
+    <div class="session-wrap">
+      <div class="session-card">
+        <h2>Start your session</h2>
+        <p class="sub">Enter your details below to begin driving &amp; teaching.</p>
+        <div class="form-grid">
+          <div class="field full" id="fSchool">
+            <label>🏫 School name</label>
+            <input id="inSchool" placeholder="e.g. Little Stars Academy" autocomplete="off">
+            <span class="err-msg">Please enter your school name</span>
+          </div>
+          <div class="field" id="fClass">
+            <label>📚 Class</label>
+            <input id="inClass" placeholder="e.g. 8" autocomplete="off">
+            <span class="err-msg">Enter your class</span>
+          </div>
+          <div class="field" id="fSection">
+            <label>🔤 Section</label>
+            <input id="inSection" placeholder="e.g. B" autocomplete="off">
+            <span class="err-msg">Enter your section</span>
+          </div>
+          <div class="field full" id="fTable">
+            <label>🪑 Table / Group name</label>
+            <input id="inTable" placeholder="e.g. Red Rockets" autocomplete="off">
+            <span class="err-msg">Enter your table name</span>
+          </div>
+        </div>
+        <button class="btn-start" onclick="submitSession()">🚀 Start Session →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 1: MAIN APP
+══════════════════════════════════════ -->
+<div id="pageApp" class="page">
+  <!-- NAV -->
+  <nav>
+    <div class="brand">
+      <a href="https://www.cognospace.in" target="_blank" class="cogno-logo">
+        <img src="cognospace-logo.png" alt="CognoSpace" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+        <span class="logo-fb" style="display:none">CognoSpace</span>
+      </a>
+      <div class="brand-text">
+        <div class="title"><em>Cogno</em>Mobility</div>
+        <div class="session-info" id="sessionInfo">—</div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="pill-stat">🧠 I know <b id="knowCount">0</b> things</div>
+      <button class="btn-halt" style="padding:9px 14px;font-size:14px" onclick="openKB()">📒 Memory</button>
+      <button class="btn-end" onclick="openEndConfirm()">⏹ End Session</button>
+    </div>
+  </nav>
+
+  <!-- Mode tabs -->
+  <div class="mode-row">
+    <button class="mode-tab teach active" id="tabTeach" onclick="setMode('teach')">🎓 Teach</button>
+    <button class="mode-tab drive"         id="tabDrive" onclick="setMode('drive')">🚗 Drive</button>
+  </div>
+
+  <!-- Weather selector (visible in both modes) -->
+  <div class="wx-row">
+    <button class="wx-btn active" data-wx="day"   onclick="setWx('day')">  ☀️ Day   </button>
+    <button class="wx-btn"        data-wx="night" onclick="setWx('night')">🌙 Night </button>
+    <button class="wx-btn"        data-wx="rain"  onclick="setWx('rain')"> 🌧 Rain  </button>
+    <button class="wx-btn"        data-wx="fog"   onclick="setWx('fog')">  🌫 Fog   </button>
+  </div>
+
+  <main>
+    <!-- LEFT: canvas -->
+    <section class="card sim">
+      <canvas id="cv" width="480" height="640"></canvas>
+      <div class="hud">
+        <div class="htag" id="hudMode"></div>
+        <div class="htag" id="hudWx">☀️ Day</div>
+        <div class="hsp"></div>
+        <div class="htag">📡 Lidar <span id="hudLidar">ON</span></div>
+      </div>
+      <div id="toast"></div>
+    </section>
+
+    <!-- RIGHT: panel -->
+    <aside class="card">
+      <!-- TEACH -->
+      <div id="panelTeach" class="panel">
+        <div><div class="eyebrow">Step 1 · You are the teacher</div><h2>🎓 Teach the car</h2></div>
+        <div class="row2">
+          <button class="btn-play" id="btnStart" onclick="startTeach()">▶ Start driving</button>
+          <button class="btn-halt" id="btnStop"  onclick="stopTeach()" disabled>Pause</button>
+        </div>
+        <div id="teachBody">
+          <div class="scan-strip"><div class="radar"></div><div><b style="font-family:'Fredoka';font-size:15px">Press "Start driving".</b><div class="muted">The lidar will spot objects on the road and ask you to name them. There's no right or wrong — you are building the car's brain!</div></div></div>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:8px">🗺 What you've taught me</div>
+          <div class="kmap" id="kmap"></div>
+        </div>
+        <p class="muted">Teach it in <b>Day, Night, Rain, and Fog</b> to make it smarter in every condition!</p>
+      </div>
+
+      <!-- DRIVE -->
+      <div id="panelDrive" class="panel" style="display:none">
+        <div><div class="eyebrow">Step 2 · Hands off the wheel</div><h2>🚗 I'll drive myself</h2></div>
+        <div class="row2">
+          <button class="btn-play" id="btnDrive" onclick="toggleDrive()">▶ Start driving</button>
+          <button class="btn-halt" onclick="setMode('teach')">🎓 Teach more</button>
+        </div>
+        <div class="brain">
+          <div class="think">🤖 <span id="brainTxt">Ready to drive using what you taught me.</span></div>
+          <div id="recogList"></div>
+        </div>
+        <div class="stats">
+          <div class="stat"   ><b id="stSeen">0</b><span>SEEN</span></div>
+          <div class="stat kn"><b id="stKnown">0</b><span>I KNEW</span></div>
+          <div class="stat gu"><b id="stGuess">0</b><span>I GUESSED</span></div>
+          <div class="stat un"><b id="stUnknown">0</b><span>BRAND NEW</span></div>
+        </div>
+        <p class="muted">When I meet something I was <b>never taught</b>, I find the most <b>similar</b> thing I know and borrow that answer. That's AI thinking!</p>
+      </div>
+
+      <div style="padding:0 22px 18px">
+        <div class="eyebrow" style="margin-bottom:6px">Driving log</div>
+        <div id="log"></div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <a href="https://www.cognospace.in" target="_blank">
+          <img src="cognospace-logo.png" alt="CognoSpace" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+          <span class="fb" style="display:none">CognoSpace</span>
+        </a>
+      </div>
+      <div class="foot-name">Cogno<span>Mobility</span> by CognoSpace</div>
+      <div class="foot-pills">
+        <span class="foot-pill">🚗 Self-Driving AI</span>
+        <span class="foot-pill">🎓 STEAM Education</span>
+        <span class="foot-pill">🧠 Machine Learning</span>
+        <span class="foot-pill">📡 Lidar Simulation</span>
+      </div>
+      <div class="foot-links">
+        <a href="https://www.cognospace.in" target="_blank">🌐 cognospace.in</a>
+        <a href="https://www.cognospace.in" target="_blank">📚 More projects</a>
+        <a href="https://www.cognospace.in" target="_blank">📧 Contact us</a>
+      </div>
+      <div class="foot-copy">© 2025 CognoSpace · All rights reserved · Made with ❤️ for curious minds</div>
+    </div>
+  </footer>
+</div>
+
+<!-- Memory modal -->
+<div class="overlay hidden" id="kbModal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeKB()">✕</button>
+    <h2>📒 My memory</h2>
+    <p class="sub">Everything you've taught me. Delete a row and I'll forget it!</p>
+    <div style="margin-top:12px;max-height:44vh;overflow-y:auto">
+      <table><thead><tr><th>#</th><th>Lidar read</th><th>You called it</th><th>Action</th><th></th></tr></thead><tbody id="kbRows"></tbody></table>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-halt" style="flex:1" onclick="forgetAll()">🗑 Forget all</button>
+      <button class="btn-play" style="flex:1;padding:12px" onclick="closeKB()">Done ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- End session confirm -->
+<div class="overlay hidden" id="endModal">
+  <div class="modal end-modal">
+    <h2>⏹ End session?</h2>
+    <p>This will <b>wipe all training data</b> and return to the start screen. Are you sure?</p>
+    <div class="end-btns">
+      <button class="btn-cancel" onclick="closeEndConfirm()">Cancel</button>
+      <button class="btn-confirm-end" onclick="confirmEnd()">Yes, end it!</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   CognoMobility — Cognospace
+   Landing → Session → Teach → Drive
+   All session data persisted in localStorage.
+   ════════════════════════════════════════════════════════ */
+
+/* ──────────── SESSION ──────────── */
+const LS_KEY='cognomobility_session';
+function loadSession(){
+  try{return JSON.parse(localStorage.getItem(LS_KEY))||null}catch(e){return null}
+}
+function saveSession(data){localStorage.setItem(LS_KEY,JSON.stringify(data))}
+function clearSession(){localStorage.removeItem(LS_KEY)}
+
+function submitSession(){
+  const fields=[
+    {id:'inSchool',wrap:'fSchool',msg:'Please enter your school name'},
+    {id:'inClass', wrap:'fClass', msg:'Enter your class'},
+    {id:'inSection',wrap:'fSection',msg:'Enter your section'},
+    {id:'inTable', wrap:'fTable', msg:'Enter your table name'},
+  ];
+  let ok=true;
+  fields.forEach(f=>{
+    const el=document.getElementById(f.id),wrap=document.getElementById(f.wrap);
+    if(!el.value.trim()){wrap.classList.add('err');ok=false}
+    else wrap.classList.remove('err');
+  });
+  if(!ok)return;
+  const sess={
+    school:document.getElementById('inSchool').value.trim(),
+    cls:   document.getElementById('inClass').value.trim(),
+    section:document.getElementById('inSection').value.trim(),
+    table: document.getElementById('inTable').value.trim(),
+    KB:[],wx:'day',ts:Date.now()
+  };
+  saveSession(sess);
+  launchApp(sess);
+}
+
+function launchApp(sess){
+  document.getElementById('pageLand').classList.remove('active');
+  document.getElementById('pageApp').classList.add('active');
+  document.getElementById('sessionInfo').textContent=
+    sess.school+' · Class '+sess.cls+sess.section+' · '+sess.table;
+  KB=sess.KB||[];
+  currentWx=sess.wx||'day';
+  updateKB();setWx(currentWx,true);
+  setMode('teach');
+}
+
+function openEndConfirm(){document.getElementById('endModal').classList.remove('hidden')}
+function closeEndConfirm(){document.getElementById('endModal').classList.add('hidden')}
+function confirmEnd(){
+  clearSession();KB=[];
+  document.getElementById('endModal').classList.add('hidden');
+  document.getElementById('pageApp').classList.remove('active');
+  document.getElementById('pageLand').classList.add('active');
+  // reset form
+  ['inSchool','inClass','inSection','inTable'].forEach(id=>{document.getElementById(id).value=''});
+  ['fSchool','fClass','fSection','fTable'].forEach(id=>{document.getElementById(id).classList.remove('err')});
+}
+
+// On load: restore session if it exists
+(function(){
+  const s=loadSession();
+  if(s&&s.school){launchApp(s)}
+})();
+
+/* ──────────── CANVAS ──────────── */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const W=480,H=640;
+const ROAD_L=100,ROAD_R=380,ROAD_W=ROAD_R-ROAD_L;
+const LANES=[ROAD_L+ROAD_W/6,ROAD_L+ROAD_W/2,ROAD_L+ROAD_W*5/6];
+const CAR_Y=510,CAR_W=46,CAR_H=82,TRIGGER_Y=255,CRUISE=3.3;
+
+/* ──────────── Object catalogue ──────────── */
+const OBJ={
+  sig_green: {cat:'signal',color:'green', size:'large', emoji:'🟢',render:'signal'},
+  sig_red:   {cat:'signal',color:'red',   size:'large', emoji:'🔴',render:'signal'},
+  sig_yellow:{cat:'signal',color:'yellow',size:'large', emoji:'🟡',render:'signal'},
+  zebra:     {cat:'marking',color:'white',size:'large', emoji:'🦓',render:'zebra'},
+  ped:       {cat:'person',color:'blue',  size:'medium',emoji:'🚶',render:'cross'},
+  child:     {cat:'person',color:'red',   size:'small', emoji:'🧒',render:'cross'},
+  dog:       {cat:'animal',color:'brown', size:'small', emoji:'🐕',render:'cross'},
+  cone:      {cat:'barrier',color:'orange',size:'medium',emoji:'🚧',render:'lane'},
+  barrier:   {cat:'barrier',color:'red',  size:'medium',emoji:'⛔',render:'lane'},
+  car:       {cat:'vehicle',color:'gray', size:'large', emoji:'🚙',render:'lane'},
+  ambulance: {cat:'vehicle',color:'white',size:'large', emoji:'🚑',render:'lane'},
+  box:       {cat:'object',color:'brown', size:'small', emoji:'📦',render:'lane'},
+  ball:      {cat:'object',color:'red',   size:'small', emoji:'⚽',render:'lane'},
+};
+const CATS=[['signal','🚦 Signals'],['marking','🦓 Road marks'],['person','🚶 People'],['animal','🐕 Animals'],['barrier','🚧 Barriers'],['vehicle','🚙 Vehicles'],['object','📦 Objects']];
+const SHAPE={signal:'tall on a pole',marking:'flat on the road',person:'upright & moving',animal:'low & moving',barrier:'cone-shaped or flat',vehicle:'big & boxy',object:'small & still'};
+
+/* ──────────── State ──────────── */
+let mode='teach',phase='idle',running=false;
+let KB=[];
+let currentWx='day';  // day | night | rain | fog
+let sc=null,scroll=0,bScroll=0,speed=0,targetSpeed=CRUISE;
+let carLane=1,carX=LANES[1],carTargetX=LANES[1];
+let scanT=0,shake=0,flash=0,frame=0,lidarFound=0,bubble=null;
+let stats={seen:0,known:0,guess:0,unknown:0};
+let spawnTimer=null,holdTimer=null;
+let rainDrops=[],lightningT=0,nightAmt=0;
+
+/* ──────────── Helpers ──────────── */
+const $=id=>document.getElementById(id);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function beep(f,d,t='sine',v=.1){try{const A=beep.ctx||(beep.ctx=new(window.AudioContext||window.webkitAudioContext)());const o=A.createOscillator(),g=A.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(A.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,A.currentTime+d);o.stop(A.currentTime+d)}catch(e){}}
+function toast(m,k){const t=$('toast');t.textContent=m;t.className='show '+(k||'');clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',2700)}
+function log(m){const d=document.createElement('div');d.className='e';d.innerHTML=m;const L=$('log');L.prepend(d);while(L.children.length>16)L.lastChild.remove()}
+function lerp(a,b,t){return a+(b-a)*t}
+function lerpC(a,b,t){const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return'rgb('+pa.map((v,i)=>Math.round(v+(pb[i]-v)*t)).join(',')+')';}
+
+/* ──────────── Perception ──────────── */
+function feat(key){const o=OBJ[key];return{cat:o.cat,color:o.color,size:o.size}}
+const WARM=['red','orange','yellow'],COOL=['green','blue','cyan'];
+function colorSim(a,b){if(a===b)return 1;const g=c=>WARM.includes(c)?'w':COOL.includes(c)?'c':'n';return g(a)===g(b)?.5:0}
+function sim(a,b){let w=0,t=0;const add=(x,m)=>{t+=x;w+=x*m};add(4,a.cat===b.cat?1:0);add(2.5,colorSim(a.color,b.color));add(1,a.size===b.size?1:0);return w/t}
+function exact(f){return KB.find(e=>e.cat===f.cat&&e.color===f.color&&e.size===f.size)||null}
+function nearest(f){let best=null,bs=-1;KB.forEach(e=>{const s=sim(f,e);if(s>bs){bs=s;best=e}});return{entry:best,sim:bs}}
+function describe(f){return f.size+' · '+f.color+' · '+SHAPE[f.cat]}
+function parseMotion(text){const t=(text||'').toLowerCase();
+  if(/\b(stop|brake|halt|wait|red)\b/.test(t))return'stop';
+  if(/\b(slow|reduce|careful|caution|ease|yield|gentle)\b/.test(t))return'slow';
+  if(/\bleft\b/.test(t))return'left';
+  if(/\b(right|pull.?over|move.?over)\b/.test(t))return'right';
+  return'go';}
+const MRANK={stop:4,slow:3,left:2,right:2,go:1};
+function combine(motions){return motions.sort((a,b)=>MRANK[b]-MRANK[a])[0]||'go'}
+
+/* ──────────── Weather ──────────── */
+function setWx(wx,silent){
+  currentWx=wx;
+  document.querySelectorAll('.wx-btn').forEach(b=>b.classList.toggle('active',b.dataset.wx===wx));
+  const labels={day:'☀️ Day',night:'🌙 Night',rain:'🌧 Rain',fog:'🌫 Fog'};
+  $('hudWx').textContent=labels[wx];
+  $('hudMode').className='htag '+(mode==='drive'?'drive':'teach')+(wx==='night'?' night':'');
+  // save to session
+  const sess=loadSession();if(sess){sess.wx=wx;saveSession(sess)}
+  if(!silent)toast({day:'☀️ Sunny day!',night:'🌙 Night mode on!',rain:'🌧 Rain starting!',fog:'🌫 Foggy road!'}[wx],'think');
+}
+
+/* ──────────── Mode ──────────── */
+function setMode(m){
+  mode=m;
+  $('tabTeach').classList.toggle('active',m==='teach');
+  $('tabDrive').classList.toggle('active',m==='drive');
+  $('panelTeach').style.display=m==='teach'?'flex':'none';
+  $('panelDrive').style.display=m==='drive'?'flex':'none';
+  $('hudMode').className='htag '+(m==='drive'?'drive':'teach')+(currentWx==='night'?' night':'');
+  $('hudMode').innerHTML=m==='drive'?'🚗 DRIVING':'🎓 LEARNING';
+  clearTimeout(spawnTimer);clearTimeout(holdTimer);
+  sc=null;phase='idle';speed=0;targetSpeed=0;carLane=1;carTargetX=LANES[1];running=false;bubble=null;
+  $('btnStart').disabled=false;$('btnStop').disabled=true;
+  $('btnDrive').textContent='▶ Start driving';
+  resetTeachBody();resetBrain();
+  if(m==='drive'){
+    if(!KB.length)toast('Teach me something first! 🎓','think');
+    running=true;phase='driving';targetSpeed=CRUISE;$('btnDrive').textContent='⏸ Pause';
+    scheduleSpawn(900);
+  }
+}
+
+/* ──────────── Teach ──────────── */
+function startTeach(){running=true;$('btnStart').disabled=true;$('btnStop').disabled=false;phase='driving';targetSpeed=CRUISE;scheduleSpawn(700);toast('Driving! Watch the road… 👀','happy')}
+function stopTeach(){running=false;$('btnStart').disabled=false;$('btnStop').disabled=true;clearTimeout(spawnTimer);clearTimeout(holdTimer);targetSpeed=0;phase='idle';sc=null;
+  resetTeachBody('<div class="scan-strip"><div class="radar" style="border-color:var(--ink-soft)"></div><div><b style="font-family:Fredoka;font-size:15px">Paused.</b><div class="muted">Taught <b>'+KB.length+'</b> thing(s). Press Start to keep going.</div></div></div>')}
+function resetTeachBody(html){$('teachBody').innerHTML=html||'<div class="scan-strip"><div class="radar"></div><div><b style="font-family:Fredoka;font-size:15px">Driving &amp; scanning…</b><div class="muted">Lidar is looking for objects on the road.</div></div></div>'}
+function scheduleSpawn(d){clearTimeout(spawnTimer);spawnTimer=setTimeout(spawn,d)}
+
+function spawn(){
+  if(!running)return;
+  const keys=Object.keys(OBJ);
+  const n=Math.random()<.28?2:1;
+  const chosen=[];
+  while(chosen.length<n){const k=pick(keys);if(!chosen.includes(k))chosen.push(k)}
+  let usedLanes=[];
+  const objs=chosen.map(key=>{
+    const o=OBJ[key];let lane=1,dy=0;
+    if(o.render==='signal')dy=-70;
+    else if(o.render==='zebra')dy=0;
+    else if(o.render==='cross'){lane=pick([0,1,2]);dy=0}
+    else{lane=[0,1,2].filter(l=>!usedLanes.includes(l))[0]??pick([0,1,2]);usedLanes.push(lane);dy=46}
+    return{key,lane,dy,crossX:null,walk:false};
+  });
+  sc={objs,y:-175,fired:false,done:false,decided:null,detect:null};lidarFound=0;
+}
+
+function onTrigger(){
+  const detect=sc.objs.map(o=>{const f=feat(o.key);return{o,f,exact:exact(f)}});
+  sc.detect=detect;lidarFound=1;beep(880,.08,'triangle');
+  if(mode==='teach')teachTrigger(detect);else driveTrigger(detect);
+}
+
+function teachTrigger(detect){
+  const unknown=detect.filter(d=>!d.exact);
+  bubble={txt:unknown.length?'I found something! 🤔':'I know this! 😄',t:0};
+  if(unknown.length===0){
+    phase='holding';targetSpeed=0;
+    $('teachBody').innerHTML='<div class="detect-head" style="margin-bottom:8px">😄 I already learned '+(detect.length>1?'these!':'this!')+'</div>'+detect.map(d=>knownCard(d)).join('');
+    detect.forEach(d=>log('🧠 Recognised <b>'+d.exact.label+'</b> → '+d.exact.action));
+    holdTimer=setTimeout(()=>{sc.decided=combine(detect.map(d=>d.exact.motion));execute(sc.decided)},1500);
+    return;
+  }
+  phase='asking';targetSpeed=0;
+  let idx=0;
+  const cards=detect.map(d=>{
+    if(d.exact)return knownCard(d);
+    const i=idx++;d._i=i;
+    return '<div class="ocard"><div class="otop"><div class="em">'+OBJ[d.o.key].emoji+'</div>'+
+      '<div><div class="detect-head" style="font-size:14px">🔍 Unknown object '+(detect.length>1?'#'+(i+1):'')+'</div>'+
+      '<div class="lidar-txt">📡 Lidar reads: <b>'+describe(d.f)+'</b></div></div></div>'+
+      '<div class="fi"><label>What is this? (you name it)</label>'+
+      '<input id="nm'+i+'" placeholder="e.g. green traffic light" autocomplete="off"></div>'+
+      '<div class="fi"><label>What should I do?</label>'+
+      '<input id="ac'+i+'" placeholder="e.g. go" autocomplete="off">'+
+      '<div class="chips">'+['Go','Stop','Slow down','Steer left','Steer right'].map(c=>'<button onclick="fillAct('+i+',\''+c+'\')">'+c+'</button>').join('')+'</div></div></div>';
+  }).join('');
+  $('teachBody').innerHTML=
+    '<div class="detect-head" style="margin-bottom:10px">🔍 Lidar found '+detect.length+' object'+(detect.length>1?'s: teach me each one!':'!')+'</div>'+
+    cards+'<button class="btn-ok" onclick="okTeach()">✅ Got it — save to memory</button>';
+  setTimeout(()=>{const e=$('nm0');e&&e.focus()},60);
+}
+
+function knownCard(d){
+  return '<div class="ocard known"><div class="otop"><div class="em">'+OBJ[d.o.key].emoji+'</div>'+
+    '<div><div class="knownmsg">✅ I already know this!</div>'+
+    '<div class="lidar-txt">It\'s a <b>'+d.exact.label+'</b> → I\'ll <b>'+d.exact.action+'</b></div></div></div></div>';
+}
+function fillAct(i,v){const e=$('ac'+i);if(e)e.value=v}
+
+function okTeach(){
+  const unknown=sc.detect.filter(d=>!d.exact);
+  for(const d of unknown){
+    if(!($('nm'+d._i).value||'').trim()||!($('ac'+d._i).value||'').trim()){toast('Name each object and say what to do 😊','think');return}
+  }
+  unknown.forEach(d=>{
+    const nm=$('nm'+d._i).value.trim(),ac=$('ac'+d._i).value.trim();
+    KB.push({cat:d.f.cat,color:d.f.color,size:d.f.size,label:nm,action:ac,motion:parseMotion(ac)});
+    d.exact=KB[KB.length-1];
+    log('📥 Learned: <b>'+nm+'</b> → '+ac);
+  });
+  beep(660,.1);setTimeout(()=>beep(880,.12),100);confetti(38);updateKB();persistKB();
+  toast('Got it! Memory saved 🧠','happy');
+  $('teachBody').innerHTML='<div class="scan-strip"><div class="radar" style="border-color:var(--mint)"></div><div><b style="font-family:Fredoka;font-size:15px">Saved!</b><div class="muted">Watch me do what you taught…</div></div></div>';
+  sc.decided=combine(sc.detect.map(d=>d.exact.motion));execute(sc.decided);
+}
+function persistKB(){const sess=loadSession();if(sess){sess.KB=KB;saveSession(sess)}}
+
+/* ──────────── Drive ──────────── */
+function toggleDrive(){
+  running=!running;$('btnDrive').textContent=running?'⏸ Pause':'▶ Start driving';
+  if(running){if(phase==='idle'){phase='driving';targetSpeed=CRUISE;scheduleSpawn(700)}else if(phase==='driving'){targetSpeed=CRUISE;if(!sc)scheduleSpawn(300)}}
+  else if(phase==='driving')targetSpeed=0;
+}
+function driveTrigger(detect){
+  phase='thinking';targetSpeed=CRUISE*.28;scanT=0;
+  const results=detect.map(d=>{
+    if(d.exact)return{d,kind:'known',entry:d.exact,sim:1};
+    const nr=nearest(d.f);
+    if(nr.entry&&nr.sim>=.45)return{d,kind:'guess',entry:nr.entry,sim:nr.sim};
+    return{d,kind:'unknown',entry:null,sim:nr.sim||0};
+  });
+  sc.results=results;
+  const lead=results[0];
+  let think=lead.kind==='known'?'I know this! It\'s a '+lead.entry.label+'.':lead.kind==='guess'?'Hmm… looks like a '+lead.entry.label+' I learned.':'I\'ve never seen this before. Slowing down!';
+  $('brainTxt').textContent=think;
+  bubble={txt:lead.kind==='known'?'I know this! 😎':lead.kind==='guess'?'Looks familiar… 🤔':'Never seen this! 😯',t:0};
+  $('recogList').innerHTML=results.map(r=>{
+    const em=OBJ[r.d.o.key].emoji;
+    if(r.kind==='known')return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>'+r.entry.label+'</b><span>I\'ll '+r.entry.action+'</span></div><span class="badge known">KNOWN</span></div>';
+    if(r.kind==='guess')return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>Looks like: '+r.entry.label+'</b><span>'+Math.round(r.sim*100)+'% similar → '+r.entry.action+'</span></div><span class="badge guess">GUESS</span></div>';
+    return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>Brand new!</b><span>Nothing similar → slow &amp; careful</span></div><span class="badge unknown">NEW</span></div>';
+  }).join('');
+  results.forEach(r=>{stats.seen++;stats[r.kind==='known'?'known':r.kind==='guess'?'guess':'unknown']++});
+  $('stSeen').textContent=stats.seen;$('stKnown').textContent=stats.known;$('stGuess').textContent=stats.guess;$('stUnknown').textContent=stats.unknown;
+  results.forEach(r=>log((r.kind==='known'?'🧠':r.kind==='guess'?'✨':'❓')+' '+(r.kind==='known'?'Knew':'Guessed')+': '+(r.entry?r.entry.label:'new')+' → '+(r.entry?r.entry.action:'careful')));
+  beep(lead.kind==='unknown'?260:620,.12,lead.kind==='unknown'?'sawtooth':'sine');
+  setTimeout(()=>{sc.decided=combine(results.map(r=>r.kind==='unknown'?'slow':r.entry.motion));execute(sc.decided)},900);
+}
+function resetBrain(){$('brainTxt').textContent='Ready to drive using what you taught me.';$('recogList').innerHTML='';stats={seen:0,known:0,guess:0,unknown:0};['stSeen','stKnown','stGuess','stUnknown'].forEach(id=>$(id)&&($(id).textContent='0'))}
+
+function execute(motion){
+  phase='executing';
+  if(motion==='stop'){targetSpeed=0}
+  else if(motion==='slow'){targetSpeed=CRUISE*.4}
+  else{targetSpeed=CRUISE;if(motion==='left'){carLane=Math.max(0,carLane-1);carTargetX=LANES[carLane]}if(motion==='right'){carLane=Math.min(2,carLane+1);carTargetX=LANES[carLane]}}
+}
+function resolveScene(){
+  if(mode==='drive'&&sc.decided==='go'){
+    const hit=sc.objs.find(o=>['ped','child','dog','cone','barrier','car','ambulance','box','ball'].includes(o.key)&&o.lane===carLane);
+    if(hit){shake=13;flash=.5;beep(150,.35,'sawtooth',.16);toast('💥 Bumped into it — teach me better next time!','oops')}
+  }
+  finishScene();
+}
+function finishScene(){
+  phase='done';bubble=null;
+  setTimeout(()=>{
+    sc=null;carLane=1;carTargetX=LANES[1];targetSpeed=CRUISE;phase='driving';
+    if(running)scheduleSpawn(1050);
+    if(mode==='teach')resetTeachBody();
+  },1200);
+}
+function updateScene(){
+  if(!sc)return;sc.y+=speed;
+  if(phase==='driving'&&!sc.fired&&sc.y>=TRIGGER_Y){sc.fired=true;onTrigger();return}
+  if(phase==='executing'){
+    const m=sc.decided;
+    if(m==='stop'){
+      if(speed<.05&&!sc.done){
+        sc.done=true;phase='holding';let hold=1500;
+        sc.objs.forEach(o=>{if(['ped','child','dog'].includes(o.key)){o.walk=true;hold=2600}});
+        if(sc.objs.some(o=>o.key==='sig_red'))setTimeout(()=>{const s=sc&&sc.objs.find(o=>o.key==='sig_red');if(s)s.key='sig_green';beep(990,.12)},1300);
+        holdTimer=setTimeout(resolveScene,hold);
+      }
+    }else{
+      sc.objs.forEach(o=>{if(['ped','child','dog'].includes(o.key)&&sc.y>CAR_Y-175){o.crossX=(o.crossX==null?LANES[o.lane]-14:o.crossX)+(o.key==='child'?3.8:2.8)}});
+      const lowest=Math.max(...sc.objs.map(o=>sc.y+o.dy));
+      if(lowest>=CAR_Y-44&&!sc.done){sc.done=true;resolveScene()}
+    }
+  }
+  if(phase==='holding')sc.objs.forEach(o=>{if(o.walk){o.crossX=(o.crossX==null?LANES[o.lane]-14:o.crossX)+(o.key==='child'?3.6:2.6)}});
+  if(bubble)bubble.t++;
+}
+
+/* ════════════════════ IMPROVED RENDER ════════════════════ */
+function draw(){
+  frame++;
+  speed+=(targetSpeed-speed)*.08;if(Math.abs(targetSpeed-speed)<.02)speed=targetSpeed;
+  scroll=(scroll+speed)%48;bScroll=(bScroll+speed*1.55)%240;
+  carX+=(carTargetX-carX)*.14;
+  if(shake>0)shake*=.82;if(flash>0)flash-=.022;
+  const isNight=currentWx==='night';
+  nightAmt+=(isNight?1:0-nightAmt)*.045;nightAmt=Math.max(0,Math.min(1,nightAmt+(isNight?.045:-.045)));
+  if(lightningT>0)lightningT-=.04;
+
+  ctx.save();
+  if(shake>.4)ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);
+
+  /* ── Sky ── */
+  const sky=ctx.createLinearGradient(0,0,0,H*.45);
+  if(isNight){sky.addColorStop(0,'#0E1428');sky.addColorStop(1,'#1A2640')}
+  else if(currentWx==='fog'){sky.addColorStop(0,'#D0D8E4');sky.addColorStop(1,'#C8D4E0')}
+  else if(currentWx==='rain'){sky.addColorStop(0,'#3D4F62');sky.addColorStop(1,'#506070')}
+  else{sky.addColorStop(0,'#87CEEB');sky.addColorStop(1,'#B8E4F8')}
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H*.45);
+
+  /* ── Grass ── */
+  const gr=ctx.createLinearGradient(0,H*.4,0,H);
+  if(isNight){gr.addColorStop(0,'#142014');gr.addColorStop(1,'#0D160D')}
+  else if(currentWx==='fog'){gr.addColorStop(0,'#9FB09A');gr.addColorStop(1,'#8A9A85')}
+  else if(currentWx==='rain'){gr.addColorStop(0,'#2E4A28');gr.addColorStop(1,'#263D20')}
+  else{gr.addColorStop(0,'#5DB842');gr.addColorStop(1,'#4FA035')}
+  ctx.fillStyle=gr;ctx.fillRect(0,H*.4,W,H*.6);
+
+  /* Sky→ground horizon blend */
+  const hor=ctx.createLinearGradient(0,H*.38,0,H*.48);
+  hor.addColorStop(0,'rgba(0,0,0,0)');hor.addColorStop(1,'rgba(0,0,0,0)');
+  if(!isNight&&currentWx==='day'){hor.addColorStop(0,'rgba(200,230,180,0)');hor.addColorStop(1,'rgba(180,220,160,.3)')}
+  ctx.fillStyle=hor;ctx.fillRect(0,H*.38,W,H*.12);
+
+  /* ── Stars (night) ── */
+  if(nightAmt>.05){
+    ctx.globalAlpha=nightAmt*.85;ctx.fillStyle='#fff';
+    for(let i=0;i<28;i++){const sx=(i*113+47)%(W-ROAD_R-16)+ROAD_R+6,sy=(i*71+29)%((H*.35));if(sx>ROAD_R+8||sx<ROAD_L-8)ctx.fillRect(sx,sy,Math.random()<.3?2:1,Math.random()<.3?2:1)}
+    for(let i=0;i<22;i++){const sx=(i*83)%(ROAD_L-16)+4,sy=(i*59+19)%(H*.35);ctx.fillRect(sx,sy,1,1)}
+    ctx.font='22px serif';ctx.fillText('🌙',W-44,38);ctx.globalAlpha=1;
+  }
+  /* ── Clouds (day/rain) ── */
+  if(currentWx==='day'||currentWx==='rain'){
+    ctx.globalAlpha=currentWx==='rain'?.7:.4;
+    [[-40,30,28],[60,55,20],[220,20,32],[340,42,22],[150,38,26]].forEach(([cx,cy,r])=>{
+      const c=currentWx==='rain'?'#7A8C9A':'#ffffff';
+      ctx.fillStyle=c;ctx.beginPath();ctx.arc((cx+bScroll*.15)%W,cy,r,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc((cx+bScroll*.15+28)%W,cy+5,r*.7,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc((cx+bScroll*.15-22)%W,cy+6,r*.65,0,Math.PI*2);ctx.fill();
+    });ctx.globalAlpha=1;
+  }
+
+  /* ── Buildings (improved canvas-drawn) ── */
+  drawBuildings();
+
+  /* ── Road ── */
+  const roadCol=isNight?'#1E2235':currentWx==='rain'?'#2E3348':'#3E4460';
+  ctx.fillStyle=roadCol;ctx.fillRect(ROAD_L,0,ROAD_W,H);
+
+  /* Road texture (wet sheen for rain) */
+  if(currentWx==='rain'){
+    const sheen=ctx.createLinearGradient(ROAD_L,0,ROAD_R,0);
+    sheen.addColorStop(0,'rgba(80,130,180,.08)');sheen.addColorStop(.5,'rgba(100,160,220,.14)');sheen.addColorStop(1,'rgba(80,130,180,.08)');
+    ctx.fillStyle=sheen;ctx.fillRect(ROAD_L,0,ROAD_W,H);
+  }
+
+  /* Kerbs */
+  ctx.fillStyle=isNight?'rgba(255,255,255,.55)':'rgba(255,255,255,.88)';
+  ctx.fillRect(ROAD_L+3,0,6,H);ctx.fillRect(ROAD_R-9,0,6,H);
+
+  /* Lane markings */
+  const dashCol=isNight?'rgba(255,240,160,.75)':'rgba(255,240,120,.9)';
+  ctx.fillStyle=dashCol;
+  [ROAD_L+ROAD_W/3,ROAD_L+ROAD_W*2/3].forEach(x=>{
+    for(let y=-48;y<H+48;y+=48)ctx.fillRect(x-2,y+scroll,4,26);
+  });
+
+  /* Street lamps (night) */
+  if(nightAmt>.05)drawLamps();
+
+  /* ── Scenario objects ── */
+  if(sc)sc.objs.forEach(o=>drawObject(o));
+
+  /* ── Detection boxes ── */
+  if(sc&&(phase==='asking'||phase==='thinking'||(phase==='holding'&&mode==='teach')))drawDetect();
+
+  /* ── Lidar arcs ── */
+  if(phase==='thinking'||lidarFound){
+    scanT++;
+    ctx.strokeStyle='rgba(52,198,236,.65)';ctx.lineWidth=2.5;
+    for(let r=0;r<3;r++){const rad=((scanT*3)+r*40)%155;ctx.beginPath();ctx.arc(carX,CAR_Y-CAR_H/2,rad,Math.PI*1.12,Math.PI*1.88);ctx.stroke()}
+  }
+
+  /* ── Car ── */
+  drawCar();
+
+  /* ── Speech bubble ── */
+  if(bubble)drawBubble();
+
+  /* ── Night vignette with headlight cone ── */
+  if(nightAmt>.04){
+    // headlight beams
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    const beam=ctx.createRadialGradient(carX,CAR_Y-CAR_H/2,10,carX,CAR_Y-100,230);
+    beam.addColorStop(0,'rgba(255,240,180,'+(0.28*nightAmt)+')');beam.addColorStop(1,'rgba(255,240,180,0)');
+    ctx.fillStyle=beam;
+    ctx.beginPath();ctx.moveTo(carX-20,CAR_Y-CAR_H/2);ctx.lineTo(carX-70,CAR_Y-280);ctx.lineTo(carX+70,CAR_Y-280);ctx.lineTo(carX+20,CAR_Y-CAR_H/2);ctx.closePath();ctx.fill();
+    ctx.restore();
+    // darkness overlay
+    const dark=ctx.createRadialGradient(carX,CAR_Y-60,60,carX,CAR_Y-60,300);
+    dark.addColorStop(0,'rgba(5,8,20,0)');dark.addColorStop(.5,'rgba(5,8,20,'+(0.22*nightAmt)+')');dark.addColorStop(1,'rgba(5,8,20,'+(0.62*nightAmt)+')');
+    ctx.fillStyle=dark;ctx.fillRect(0,0,W,H);
+  }
+
+  /* ── Fog overlay ── */
+  if(currentWx==='fog'){
+    const fogG=ctx.createLinearGradient(0,0,0,H);
+    fogG.addColorStop(0,'rgba(210,220,232,.55)');fogG.addColorStop(.6,'rgba(200,215,228,.38)');fogG.addColorStop(1,'rgba(190,210,222,.18)');
+    ctx.fillStyle=fogG;ctx.fillRect(0,0,W,H);
+  }
+
+  /* ── Rain ── */
+  if(currentWx==='rain')drawRain();
+
+  /* ── Lightning ── */
+  if(currentWx==='rain'&&Math.random()<.008){lightningT=1;beep(80,.12,'sawtooth',.06)}
+  if(lightningT>.0){ctx.fillStyle='rgba(255,255,255,'+(lightningT*.45)+')';ctx.fillRect(0,0,W,H)}
+
+  ctx.restore();
+
+  /* ── Speedo (outside save/restore) ── */
+  drawSpeedo();
+
+  /* ── Crash flash ── */
+  if(flash>0){ctx.fillStyle='rgba(255,80,80,'+flash+')';ctx.fillRect(0,0,W,H)}
+
+  updateScene();stepConfetti();
+  requestAnimationFrame(draw);
+}
+
+/* ── Canvas Buildings (properly drawn, not emoji) ── */
+const BDATA=[
+  {w:52,h:80,col:'#E87A5E',wCol:'#FFF0A0',label:'SCHOOL',floors:3,icon:'🏫'},
+  {w:44,h:96,col:'#6BB5E8',wCol:'#D0EDFF',label:'HOSPITAL',floors:4,icon:'🏥'},
+  {w:56,h:60,col:'#A8E8B0',wCol:'#FFF',label:'MART',floors:2,icon:'🏪'},
+  {w:40,h:70,col:'#FFB86C',wCol:'#FFF8E8',label:'HOME',floors:2,icon:'🏠'},
+  {w:48,h:108,col:'#9B9ED4',wCol:'#EEF0FF',label:'TOWER',floors:5,icon:'🏢'},
+  {w:60,h:76,col:'#E8C46B',wCol:'#FFF8DC',label:'SHOPS',floors:3,icon:'🏬'},
+];
+function drawBuildings(){
+  const isNight=currentWx==='night';
+  const alpha=currentWx==='fog'?.55:isNight?.8:1;
+  for(let side=0;side<2;side++){
+    for(let i=-1;i<5;i++){
+      const idx=((i+(side*3))%BDATA.length+BDATA.length)%BDATA.length;
+      const bd=BDATA[idx];
+      const y=((i*240)+bScroll)%(H+240)-120;
+      const x=side===0?ROAD_L-bd.w-8:ROAD_R+8;
+      ctx.globalAlpha=alpha;
+      /* shadow */
+      ctx.fillStyle='rgba(0,0,0,.15)';ctx.fillRect(x+5,y-bd.h+5,bd.w,bd.h);
+      /* body */
+      const bodyCol=isNight?darken(bd.col,.45):bd.col;
+      ctx.fillStyle=bodyCol;ctx.fillRect(x,y-bd.h,bd.w,bd.h);
+      /* border */
+      ctx.strokeStyle=isNight?'rgba(255,255,255,.15)':'rgba(0,0,0,.25)';ctx.lineWidth=1.5;ctx.strokeRect(x,y-bd.h,bd.w,bd.h);
+      /* roof */
+      ctx.fillStyle=isNight?darken(bd.col,.6):darken(bd.col,.15);ctx.fillRect(x-3,y-bd.h-6,bd.w+6,8);
+      /* windows */
+      const floH=Math.floor(bd.h/bd.floors);
+      for(let f=0;f<bd.floors;f++){
+        const wy=y-bd.h+f*floH+8;
+        for(let wx2=0;wx2<2;wx2++){
+          const winX=x+8+wx2*(bd.w-28),winW=bd.w/2-10;
+          const winLit=isNight&&Math.sin((i+f*3+wx2*7+frame*.01)*1.9)>.3;
+          ctx.fillStyle=winLit?'#FFE9A0':(isNight?'#1A1E30':bd.wCol);
+          ctx.fillRect(winX,wy,winW,floH-14);
+          if(winLit){ctx.fillStyle='rgba(255,233,160,.25)';ctx.fillRect(winX-3,wy-3,winW+6,floH-8)}
+        }
+      }
+      /* label */
+      ctx.fillStyle=isNight?'rgba(255,255,255,.5)':'rgba(0,0,0,.5)';
+      ctx.font='700 8px Nunito';ctx.textAlign='center';ctx.fillText(bd.label,x+bd.w/2,y+10);
+      ctx.textAlign='start';
+      ctx.globalAlpha=1;
+    }
+  }
+}
+function darken(hex,amt){const r=[1,3,5].map(i=>parseInt(hex.substr(i,2),16));return'rgb('+r.map(v=>Math.max(0,Math.round(v*(1-amt)))).join(',')+')';}
+
+function drawLamps(){
+  const positions=[[ROAD_L-14,0],[ROAD_R+14,120]];
+  for(const [lx,off] of positions){
+    for(let i=-1;i<5;i++){
+      const ly=((i*170+off)+bScroll*.8)%(H+170)-85;
+      ctx.save();ctx.globalAlpha=nightAmt;
+      ctx.fillStyle='#6B7490';ctx.fillRect(lx-2,ly-28,4,30);ctx.fillRect(lx-12,ly-28,14,3);
+      const grd=ctx.createRadialGradient(lx-5,ly-30,2,lx-5,ly-30,38);
+      grd.addColorStop(0,'rgba(255,230,140,.85)');grd.addColorStop(1,'rgba(255,220,100,0)');
+      ctx.fillStyle=grd;ctx.beginPath();ctx.arc(lx-5,ly-30,38,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#FFE085';ctx.beginPath();ctx.arc(lx-5,ly-30,5,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }
+  }
+}
+
+function drawObject(o){
+  const f=OBJ[o.key],y=sc.y+o.dy;
+  if(f.render==='signal'){
+    const gy=y;
+    /* gantry pole */
+    ctx.fillStyle='#20283A';ctx.fillRect(ROAD_L,gy-5,ROAD_W,7);ctx.fillRect(ROAD_R+2,gy-5,10,52);
+    /* housing */
+    ctx.fillStyle='#0E1424';rr(LANES[1]-14,gy-36,28,56,6,'#141E30');
+    /* lights */
+    [['red','#FF4D5E'],['yellow','#FFC233'],['green','#22D07A']].forEach((c,i)=>{
+      const on=OBJ[o.key].color===c[0];
+      ctx.beginPath();ctx.arc(LANES[1],gy-24+i*18,6,0,Math.PI*2);
+      ctx.fillStyle=on?c[1]:c[1]+'28';ctx.fill();
+      if(on){const glow=ctx.createRadialGradient(LANES[1],gy-24+i*18,3,LANES[1],gy-24+i*18,16);glow.addColorStop(0,c[1]+'88');glow.addColorStop(1,c[1]+'00');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(LANES[1],gy-24+i*18,16,0,Math.PI*2);ctx.fill()}
+    });
+  }else if(f.render==='zebra'){
+    ctx.fillStyle='rgba(255,255,255,.92)';for(let x=ROAD_L+8;x<ROAD_R-8;x+=34)ctx.fillRect(x,y-20,22,40);
+  }else if(f.render==='cross'){
+    ctx.fillStyle='rgba(255,255,255,.9)';for(let x=ROAD_L+8;x<ROAD_R-8;x+=34)ctx.fillRect(x,y-20,22,40);
+    const px=o.crossX==null?LANES[o.lane]-14:o.crossX;
+    ctx.font='30px serif';
+    ctx.save();ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=8;ctx.fillText(f.emoji,px,y+10);ctx.restore();
+  }else{
+    const x=LANES[o.lane];ctx.textAlign='center';
+    ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=4;ctx.font='34px serif';ctx.fillText(f.emoji,x,y+14);ctx.restore();
+    ctx.textAlign='start';
+  }
+}
+function drawDetect(){
+  const isAsk=phase==='asking'||(phase==='holding'&&mode==='teach');
+  sc.objs.forEach(o=>{
+    const f=OBJ[o.key],y=sc.y+o.dy;let bx,by,bw,bh;
+    if(f.render==='signal'){bx=LANES[1]-22;by=y-42;bw=44;bh=68}
+    else if(f.render==='zebra'){bx=ROAD_L+4;by=y-26;bw=ROAD_W-8;bh=52}
+    else if(f.render==='cross'){bx=ROAD_L+4;by=y-24;bw=ROAD_W-8;bh=48}
+    else{bx=LANES[o.lane]-24;by=y-20;bw=50;bh=52}
+    const col=isAsk?'#FF7A3D':'#34C6EC';
+    ctx.strokeStyle=col;ctx.lineWidth=3;ctx.setLineDash([8,5]);
+    ctx.beginPath();ctx.roundRect(bx,by,bw,bh,8);ctx.stroke();ctx.setLineDash([]);
+    /* corner brackets */
+    ctx.strokeStyle=col;ctx.lineWidth=3.5;ctx.setLineDash([]);
+    [[bx,by],[bx+bw,by],[bx,by+bh],[bx+bw,by+bh]].forEach(([cx,cy],qi)=>{
+      const sx=qi%2===0?1:-1,sy=qi<2?1:-1;
+      ctx.beginPath();ctx.moveTo(cx+sx*14,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy+sy*14);ctx.stroke();
+    });
+    /* label pill */
+    ctx.fillStyle=col;const lbl=isAsk?'📡 OBJECT FOUND':'🔍 ANALYSING';
+    const lw=ctx.measureText(lbl).width;
+    ctx.font='700 10px Nunito';
+    rr(bx,by-18,lw+16,17,8,col);ctx.fillStyle='#fff';ctx.fillText(lbl,bx+8,by-7);
+  });
+}
+function drawCar(){
+  const x=carX,y=CAR_Y;
+  /* shadow */
+  ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(x,y+8,28,16,0,0,Math.PI*2);ctx.fill();
+  /* body */
+  ctx.save();
+  /* subtle body shadow */
+  ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=14;ctx.shadowOffsetY=4;
+  rr(x-CAR_W/2,y-CAR_H/2,CAR_W,CAR_H,15,'#F0F4FA');ctx.restore();
+  /* colour accent stripe */
+  rr(x-CAR_W/2,y-8,CAR_W,18,4,currentWx==='night'?'#2A3F7E':currentWx==='rain'?'#3A6E8C':'#E87A5E');
+  /* windshield */
+  rr(x-17,y-27,34,18,7,'#A8D8F0');
+  /* rear window */
+  rr(x-14,y+11,28,13,5,'#A8D8F0');
+  /* body outline */
+  ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-CAR_W/2,y-CAR_H/2,CAR_W,CAR_H,15);ctx.stroke();
+  /* wheel arches */
+  ctx.fillStyle='rgba(0,0,0,.18)';ctx.fillRect(x-CAR_W/2,y-11,8,16);ctx.fillRect(x+CAR_W/2-8,y-11,8,16);
+  /* wheels */
+  [[x-CAR_W/2+3,y-3],[x+CAR_W/2-3,y-3],[x-CAR_W/2+3,y+22],[x+CAR_W/2-3,y+22]].forEach(([wx,wy])=>{
+    ctx.fillStyle='#1A1A2E';ctx.beginPath();ctx.ellipse(wx,wy,5,6,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#444';ctx.beginPath();ctx.ellipse(wx,wy,2,2.5,0,0,Math.PI*2);ctx.fill();
+  });
+  /* lidar dome */
+  ctx.fillStyle='#1A1A2E';ctx.beginPath();ctx.arc(x,y-3,9,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#2A2A4E';ctx.beginPath();ctx.arc(x,y-3,7,0,Math.PI*2);ctx.fill();
+  const lidarCol=mode==='drive'?(Math.floor(frame/12)%2?'#3DD9A8':'#9B7EF0'):'#34C6EC';
+  ctx.fillStyle=lidarCol;ctx.beginPath();ctx.arc(x,y-3,3.5,0,Math.PI*2);ctx.fill();
+  /* lidar blink glow */
+  if(Math.floor(frame/12)%2===0){ctx.save();ctx.globalAlpha=.35;const lg=ctx.createRadialGradient(x,y-3,2,x,y-3,14);lg.addColorStop(0,lidarCol);lg.addColorStop(1,lidarCol+'00');ctx.fillStyle=lg;ctx.beginPath();ctx.arc(x,y-3,14,0,Math.PI*2);ctx.fill();ctx.restore()}
+  /* headlights */
+  ctx.fillStyle=currentWx==='night'?'#FFFACC':'#FFE8A8';
+  ctx.fillRect(x-CAR_W/2,y-CAR_H/2-1,10,5);ctx.fillRect(x+CAR_W/2-10,y-CAR_H/2-1,10,5);
+  if(currentWx==='night'){
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    ctx.fillStyle='rgba(255,248,180,.18)';ctx.beginPath();ctx.moveTo(x-CAR_W/2+5,y-CAR_H/2);ctx.lineTo(x-CAR_W/2-10,y-CAR_H/2-30);ctx.lineTo(x-CAR_W/2+18,y-CAR_H/2-30);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.moveTo(x+CAR_W/2-5,y-CAR_H/2);ctx.lineTo(x+CAR_W/2-18,y-CAR_H/2-30);ctx.lineTo(x+CAR_W/2+10,y-CAR_H/2-30);ctx.closePath();ctx.fill();
+    ctx.restore();
+  }
+  /* brake lights */
+  if(targetSpeed<CRUISE*.15&&speed>.02){ctx.fillStyle='#FF4D5E';ctx.fillRect(x-CAR_W/2,y+CAR_H/2-4,10,5);ctx.fillRect(x+CAR_W/2-10,y+CAR_H/2-4,10,5)}
+}
+function drawBubble(){
+  const x=carX,y=CAR_Y-CAR_H/2-16;ctx.font='700 13px Nunito';
+  const txt=bubble.txt,tw=ctx.measureText(txt).width;
+  const bw=tw+22,bh=32,bx=Math.min(W-bw-6,Math.max(6,x-bw/2));
+  const pop=Math.min(1,bubble.t/8);ctx.save();ctx.globalAlpha=pop;
+  rr(bx,y-bh,bw,bh,12,'#fff');ctx.strokeStyle='rgba(43,42,76,.2)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(bx,y-bh,bw,bh,12);ctx.stroke();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(x-7,y-2);ctx.lineTo(x+7,y-2);ctx.lineTo(x,y+10);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#2B2A4C';ctx.textAlign='center';ctx.fillText(txt,bx+bw/2,y-bh/2+5);ctx.textAlign='start';ctx.restore();
+}
+function rr(x,y,w,h,r,fill){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill()}
+
+function drawRain(){
+  if(rainDrops.length<140)for(let i=0;i<8;i++)rainDrops.push({x:Math.random()*W,y:Math.random()*-80,s:6+Math.random()*7});
+  ctx.strokeStyle='rgba(140,180,220,.55)';ctx.lineWidth=1.4;
+  rainDrops.forEach(p=>{ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-2,p.y+p.s);ctx.stroke();p.y+=p.s+speed;p.x-=1.5});
+  rainDrops=rainDrops.filter(p=>p.y<H+20);
+  /* puddle reflections on road */
+  if(Math.floor(frame/6)%2===0){ctx.fillStyle='rgba(120,160,200,.06)';ctx.fillRect(ROAD_L,0,ROAD_W,H)}
+}
+function drawSpeedo(){
+  const cx=60,cy=H-58,r=42;const kmh=Math.round(speed*16),maxK=70;
+  ctx.save();
+  /* bezel */
+  ctx.fillStyle='rgba(30,28,52,.85)';ctx.beginPath();ctx.arc(cx,cy,r+8,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,r+6,0,Math.PI*2);ctx.stroke();
+  /* track */
+  ctx.lineWidth=8;ctx.strokeStyle='rgba(255,255,255,.1)';ctx.beginPath();ctx.arc(cx,cy,r-2,Math.PI*.75,Math.PI*2.25);ctx.stroke();
+  /* fill */
+  const fr=Math.min(1,kmh/maxK);
+  const spCol=fr>.75?'#FF6B6B':fr>.45?'#FFD23F':'#3DD9A8';
+  ctx.strokeStyle=spCol;ctx.lineWidth=8;ctx.lineCap='round';ctx.beginPath();ctx.arc(cx,cy,r-2,Math.PI*.75,Math.PI*.75+Math.PI*1.5*fr);ctx.stroke();
+  /* needle */
+  const ang=Math.PI*.75+Math.PI*1.5*fr;
+  ctx.strokeStyle='#fff';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(cx+Math.cos(ang+Math.PI)*8,cy+Math.sin(ang+Math.PI)*8);ctx.lineTo(cx+Math.cos(ang)*(r-12),cy+Math.sin(ang)*(r-12));ctx.stroke();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cx,cy,4.5,0,Math.PI*2);ctx.fill();
+  /* readout */
+  ctx.fillStyle='#fff';ctx.font='800 17px "Fredoka"';ctx.textAlign='center';ctx.fillText(kmh,cx,cy+20);
+  ctx.font='700 8px Nunito';ctx.fillStyle='rgba(255,255,255,.6)';ctx.fillText('km/h',cx,cy+30);
+  ctx.textAlign='start';ctx.restore();
+}
+
+/* ── Confetti ── */
+const cf=document.getElementById('confetti'),cfx=cf.getContext('2d');let parts=[];
+function sizeCf(){cf.width=innerWidth;cf.height=innerHeight}addEventListener('resize',sizeCf);sizeCf();
+function confetti(n){const cols=['#FF6B6B','#34C6EC','#3DD9A8','#FFD23F','#9B7EF0','#FF8FCF'];for(let i=0;i<n;i++)parts.push({x:Math.random()*cf.width,y:-20-Math.random()*80,vx:(Math.random()-.5)*3,vy:2+Math.random()*3.5,s:5+Math.random()*6,r:Math.random()*6.28,vr:(Math.random()-.5)*.3,c:cols[Math.floor(Math.random()*cols.length)]})}
+function stepConfetti(){if(!parts.length){cfx.clearRect(0,0,cf.width,cf.height);return}cfx.clearRect(0,0,cf.width,cf.height);parts=parts.filter(p=>p.y<cf.height+30);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;cfx.save();cfx.translate(p.x,p.y);cfx.rotate(p.r);cfx.fillStyle=p.c;cfx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);cfx.restore()})}
+
+/* ── KB ── */
+function updateKB(){
+  $('knowCount').textContent=KB.length;
+  const cats=new Set(KB.map(e=>e.cat));
+  $('kmap').innerHTML=CATS.map(c=>'<span class="k'+(cats.has(c[0])?' has':'')+'"><b>'+(cats.has(c[0])?'✓ ':'')+c[1]+'</b></span>').join('');
+}
+function openKB(){
+  $('kbRows').innerHTML=KB.length?KB.map((e,i)=>`<tr><td style="color:var(--ink-soft)">${i+1}</td><td>${describe(e)}</td><td><b>${e.label}</b></td><td>${e.action}</td><td><button class="del" onclick="forget(${i})">forget</button></td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;color:var(--ink-soft);padding:24px">You haven\'t taught me anything yet!</td></tr>';
+  $('kbModal').classList.remove('hidden');
+}
+function forget(i){KB.splice(i,1);updateKB();persistKB();openKB();log('🗑 Forgot memory #'+(i+1))}
+function forgetAll(){KB=[];updateKB();persistKB();openKB();log('🗑 <b>Forgot everything.</b>')}
+function closeKB(){$('kbModal').classList.add('hidden')}
+
+/* ── Boot ── */
+$('hudMode').className='htag teach';$('hudMode').textContent='🎓 LEARNING';
+draw();
+</script>
+</body>
+</html>
