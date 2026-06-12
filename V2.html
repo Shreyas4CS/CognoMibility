@@ -9,19 +9,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --coral:#F4595B; --sky:#2DB6DC; --sun:#F5C13B; --mint:#34C99A;
-  --grape:#8A6FE0; --pink:#FF8FCF; --orange:#F26A2E;
-  --ink:#22243F; --ink-soft:#5b5980; --cream:#FBF7F0; --card:#fff;
-  --line:#22243F; --sh:4px 4px 0 var(--ink); --sh-s:2px 2px 0 var(--ink);
-  --r:18px;
+  --coral:#FF6B6B; --sky:#34C6EC; --sun:#FFD23F; --mint:#3DD9A8;
+  --grape:#9B7EF0; --pink:#FF8FCF; --orange:#FF7A3D;
+  --ink:#2B2A4C; --ink-soft:#5b5980; --cream:#FFF9F0; --card:#fff;
+  --line:#2B2A4C; --sh:5px 5px 0 var(--ink); --sh-s:3px 3px 0 var(--ink);
+  --r:22px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100vh}
 body{
   font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:var(--cream);
   background-image:
-    radial-gradient(circle at 10% 8%,rgba(45,182,220,.14),transparent 38%),
-    radial-gradient(circle at 92% 92%,rgba(138,111,224,.12),transparent 40%);
+    radial-gradient(circle at 12% 18%,rgba(255,210,63,.38),transparent 30%),
+    radial-gradient(circle at 88% 12%,rgba(52,198,236,.30),transparent 32%),
+    radial-gradient(circle at 80% 85%,rgba(255,143,207,.28),transparent 34%),
+    radial-gradient(circle at 15% 90%,rgba(61,217,168,.28),transparent 32%);
   background-attachment:fixed;
 }
 h1,h2,h3,h4,.fh{font-family:'Fredoka',sans-serif;font-weight:600;letter-spacing:.3px}
@@ -218,7 +220,6 @@ td .del{background:var(--coral);color:#fff;border:2px solid var(--ink);border-ra
 .modal-btns{display:flex;gap:10px;margin-top:18px}
 
 /* End-session confirm */
-#endModal{z-index:120}
 .end-modal{max-width:380px;text-align:center}
 .end-modal h2{margin-bottom:12px}
 .end-modal p{font-weight:700;color:var(--ink-soft);margin-bottom:20px;line-height:1.5}
@@ -236,32 +237,6 @@ footer{border-top:3px solid var(--ink);background:rgba(255,249,240,.9);padding:1
 .foot-inner img{height:24px;border-radius:6px;border:2px solid var(--ink)}
 .foot-dot{color:var(--ink-soft);font-size:12px}
 .foot-copy{font-size:11.5px;color:var(--ink-soft);font-weight:700}
-
-/* ── Neural network card ── */
-.nn-card{grid-column:1/-1;background:var(--card);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px 20px 16px;margin-top:2px}
-.nn-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
-.nn-head .nn-title{font-family:'Fredoka';font-weight:600;font-size:18px;display:flex;align-items:center;gap:8px}
-.nn-head .nn-mode{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--grape);border:2px solid var(--ink);border-radius:999px;padding:4px 12px;box-shadow:var(--sh-s)}
-.nn-wrap{position:relative;width:100%;background:linear-gradient(180deg,#fff,#FBFAFF);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
-canvas#nn{display:block;width:100%;height:220px}
-.nn-cap{margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700;font-size:13px;color:var(--ink-soft)}
-.nn-cap .flow{font-family:'Fredoka';font-weight:600;color:var(--ink)}
-.nn-cap .arr{color:var(--grape);font-weight:800}
-.nn-cap .out{font-family:'Fredoka';font-weight:600;color:var(--coral)}
-.nn-cap .conf{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--ink-soft)}
-.nn-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:11px;font-weight:800;color:var(--ink-soft)}
-.nn-legend i{display:inline-block;width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);margin-right:5px;vertical-align:-1px}
-.nn-legend .li-in{background:var(--ink)}.nn-legend .li-hid{background:var(--coral)}.nn-legend .li-out{background:var(--ink)}
-
-/* ── Readiness meter (train mode) ── */
-.ready{background:var(--cream);border:2.5px solid var(--ink);border-radius:16px;padding:14px 15px;box-shadow:var(--sh-s)}
-.ready-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
-.ready-top .rl{font-family:'Fredoka';font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px}
-.ready-top .rv{font-family:'Fredoka';font-weight:600;font-size:18px}
-.ready-track{height:14px;background:#fff;border:2px solid var(--ink);border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
-.ready-fill{height:100%;width:0%;border-radius:999px;transition:width .5s cubic-bezier(.4,1.2,.5,1)}
-.ready-msg{margin-top:8px;font-size:12px;font-weight:700;color:var(--ink-soft)}
-.ready-msg b{color:var(--ink)}
 
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 </style>
@@ -282,14 +257,14 @@ canvas#nn{display:block;width:100%;height:220px}
     </div>
     <div class="land-hero">
       <h1><span class="hi">CognoMobility</span><span class="by">by CognoSpace</span></h1>
-      <p>An interactive AI lab where <b>you</b> train a self-driving car to recognise the road — then watch it drive on its own.</p>
+      <p>A real-time AI simulator where <b>you</b> teach a self-driving car what to do — one object at a time.</p>
     </div>
     <span class="land-car">🚗</span>
     <div class="land-road"></div>
     <div class="session-wrap">
       <div class="session-card">
         <h2>Start your session</h2>
-        <p class="sub">Enter your details to begin training the model.</p>
+        <p class="sub">Enter your details below to begin driving &amp; teaching.</p>
         <div class="form-grid">
           <div class="field full" id="fSchool">
             <label>🏫 School name</label>
@@ -335,16 +310,16 @@ canvas#nn{display:block;width:100%;height:220px}
       </div>
     </div>
     <div class="nav-right">
-      <div class="pill-stat">Concepts learned: <b id="knowCount">0</b></div>
+      <div class="pill-stat">🧠 I know <b id="knowCount">0</b> things</div>
       <button class="btn-halt" style="padding:9px 14px;font-size:14px" onclick="openKB()">📒 Memory</button>
-      <button class="btn-end" onclick="openEndConfirm()">⏹ End session</button>
+      <button class="btn-end" onclick="openEndConfirm()">⏹ End Session</button>
     </div>
   </nav>
 
   <!-- Mode tabs -->
   <div class="mode-row">
-    <button class="mode-tab teach active" id="tabTeach" onclick="setMode('teach')">🎓 Train</button>
-    <button class="mode-tab drive"         id="tabDrive" onclick="setMode('drive')">🚗 Live</button>
+    <button class="mode-tab teach active" id="tabTeach" onclick="setMode('teach')">🎓 Teach</button>
+    <button class="mode-tab drive"         id="tabDrive" onclick="setMode('drive')">🚗 Drive</button>
   </div>
 
   <!-- Sky changes on its own now — no buttons! The car will ask what to do. -->
@@ -366,47 +341,39 @@ canvas#nn{display:block;width:100%;height:220px}
     <aside class="card">
       <!-- TEACH -->
       <div id="panelTeach" class="panel">
-        <div><div class="eyebrow">Step 1 · You are the trainer</div><h2>🎓 Train the model</h2></div>
+        <div><div class="eyebrow">Step 1 · You are the teacher</div><h2>🎓 Teach the car</h2></div>
         <div class="row2">
           <button class="btn-play" id="btnStart" onclick="startTeach()">▶ Start driving</button>
           <button class="btn-halt" id="btnStop"  onclick="stopTeach()" disabled>Pause</button>
         </div>
         <div id="teachBody">
-          <div class="scan-strip"><div class="radar"></div><div><b style="font-family:'Fredoka';font-size:15px">Press "Start driving" to begin.</b><div class="muted">The lidar will detect objects on the road and ask you to label each one and choose an action. Every label you add becomes a training example.</div></div></div>
-        </div>
-        <div class="ready">
-          <div class="ready-top">
-            <div class="rl">📈 Live-mode readiness</div>
-            <div class="rv" id="readyVal">0%</div>
-          </div>
-          <div class="ready-track"><div class="ready-fill" id="readyFill"></div></div>
-          <div class="ready-msg" id="readyMsg">Train at least a few different objects to prepare the model for Live mode.</div>
+          <div class="scan-strip"><div class="radar"></div><div><b style="font-family:'Fredoka';font-size:15px">Press "Start driving".</b><div class="muted">The lidar will spot objects on the road and ask you to name them. There's no right or wrong — you are building the car's brain!</div></div></div>
         </div>
         <div>
-          <div class="eyebrow" style="margin-bottom:8px">🗺 Concepts you've trained</div>
+          <div class="eyebrow" style="margin-bottom:8px">🗺 What you've taught me</div>
           <div class="kmap" id="kmap"></div>
         </div>
-        <p class="muted">Train across <b>day, night, rain and fog</b> so the model performs in every condition.</p>
+        <p class="muted">Teach it in <b>Day, Night, Rain, and Fog</b> to make it smarter in every condition!</p>
       </div>
 
       <!-- DRIVE -->
       <div id="panelDrive" class="panel" style="display:none">
-        <div><div class="eyebrow">Step 2 · Autonomous mode</div><h2>🚗 Self-driving (Live)</h2></div>
+        <div><div class="eyebrow">Step 2 · Hands off the wheel</div><h2>🚗 I'll drive myself</h2></div>
         <div class="row2">
           <button class="btn-play" id="btnDrive" onclick="toggleDrive()">▶ Start driving</button>
-          <button class="btn-halt" onclick="setMode('teach')">🎓 Train more</button>
+          <button class="btn-halt" onclick="setMode('teach')">🎓 Teach more</button>
         </div>
         <div class="brain">
-          <div class="think">🤖 <span id="brainTxt">Driving with the model you trained.</span></div>
+          <div class="think">🤖 <span id="brainTxt">Ready to drive using what you taught me.</span></div>
           <div id="recogList"></div>
         </div>
         <div class="stats">
           <div class="stat"   ><b id="stSeen">0</b><span>SEEN</span></div>
-          <div class="stat kn"><b id="stKnown">0</b><span>RECOGNISED</span></div>
-          <div class="stat gu"><b id="stGuess">0</b><span>INFERRED</span></div>
-          <div class="stat un"><b id="stUnknown">0</b><span>UNKNOWN</span></div>
+          <div class="stat kn"><b id="stKnown">0</b><span>I KNEW</span></div>
+          <div class="stat gu"><b id="stGuess">0</b><span>I GUESSED</span></div>
+          <div class="stat un"><b id="stUnknown">0</b><span>BRAND NEW</span></div>
         </div>
-        <p class="muted">For an object it was <b>never trained</b> on, the model finds the most <b>similar</b> concept it knows and reuses that decision — that's how machine inference works.</p>
+        <p class="muted">When I meet something I was <b>never taught</b>, I find the most <b>similar</b> thing I know and borrow that answer. That's AI thinking!</p>
       </div>
 
       <div style="padding:0 22px 18px">
@@ -414,26 +381,6 @@ canvas#nn{display:block;width:100%;height:220px}
         <div id="log"></div>
       </div>
     </aside>
-
-    <!-- NEURAL NETWORK — live visualization (both modes) -->
-    <section class="nn-card">
-      <div class="nn-head">
-        <div class="nn-title">🧠 Neural network — live view</div>
-        <div class="nn-mode" id="nnMode">STANDBY</div>
-      </div>
-      <div class="nn-wrap"><canvas id="nn"></canvas></div>
-      <div class="nn-cap">
-        <span class="flow" id="nnIn">Inputs idle</span>
-        <span class="arr">→</span>
-        <span class="out" id="nnOut">awaiting object</span>
-        <span class="conf" id="nnConf"></span>
-      </div>
-      <div class="nn-legend">
-        <span><i class="li-in"></i>Input layer (sensor readings)</span>
-        <span><i class="li-hid"></i>Hidden layer (processing)</span>
-        <span><i class="li-out"></i>Output layer (decision)</span>
-      </div>
-    </section>
   </main>
 
   <!-- FOOTER -->
@@ -455,14 +402,14 @@ canvas#nn{display:block;width:100%;height:220px}
 <div class="overlay hidden" id="kbModal">
   <div class="modal">
     <button class="modal-x" onclick="closeKB()">✕</button>
-    <h2>📒 Training memory</h2>
-    <p class="sub">Every concept you've trained. Remove a row to delete that example.</p>
+    <h2>📒 My memory</h2>
+    <p class="sub">Everything you've taught me. Delete a row and I'll forget it!</p>
     <div style="margin-top:12px;max-height:44vh;overflow-y:auto">
-      <table><thead><tr><th>#</th><th>Lidar reading</th><th>Your label</th><th>Action</th><th></th></tr></thead><tbody id="kbRows"></tbody></table>
+      <table><thead><tr><th>#</th><th>Lidar read</th><th>You called it</th><th>Action</th><th></th></tr></thead><tbody id="kbRows"></tbody></table>
     </div>
     <div class="modal-btns">
-      <button class="btn-halt" style="flex:1" onclick="forgetAll()">🗑 Clear all</button>
-      <button class="btn-play" style="flex:1;padding:12px" onclick="closeKB()">Done</button>
+      <button class="btn-halt" style="flex:1" onclick="forgetAll()">🗑 Forget all</button>
+      <button class="btn-play" style="flex:1;padding:12px" onclick="closeKB()">Done ✓</button>
     </div>
   </div>
 </div>
@@ -471,10 +418,10 @@ canvas#nn{display:block;width:100%;height:220px}
 <div class="overlay hidden" id="endModal">
   <div class="modal end-modal">
     <h2>⏹ End session?</h2>
-    <p>This clears all training data and returns to the start screen. Continue?</p>
+    <p>This will <b>wipe all training data</b> and return to the start screen. Are you sure?</p>
     <div class="end-btns">
       <button class="btn-cancel" onclick="closeEndConfirm()">Cancel</button>
-      <button class="btn-confirm-end" onclick="confirmEnd()">End session</button>
+      <button class="btn-confirm-end" onclick="confirmEnd()">Yes, end it!</button>
     </div>
   </div>
 </div>
@@ -538,37 +485,25 @@ function launchApp(sess){
   currentWx=sess.wx||'day';
   updateKB();setWx(currentWx,true);
   setMode('teach');
-  // canvas was hidden on the landing page, so size it now that it's visible
-  try{NN.resize();}catch(e){}
-  requestAnimationFrame(()=>{try{NN.resize();}catch(e){}});
 }
 
-function openEndConfirm(){
-  // close anything that could sit on top of the confirm dialog
-  envOpen=false;
-  $('envModal').classList.add('hidden');
-  $('kbModal').classList.add('hidden');
-  clearTimeout(wxTimer);clearTimeout(spawnTimer);clearTimeout(holdTimer);
-  running=false;targetSpeed=0;
-  $('endModal').classList.remove('hidden');
-}
-function closeEndConfirm(){$('endModal').classList.add('hidden')}
+function openEndConfirm(){document.getElementById('endModal').classList.remove('hidden')}
+function closeEndConfirm(){document.getElementById('endModal').classList.add('hidden')}
 function confirmEnd(){
-  clearTimeout(wxTimer);clearTimeout(spawnTimer);clearTimeout(holdTimer);
   clearSession();KB=[];
-  sc=null;phase='idle';running=false;speed=0;targetSpeed=0;
-  envState={lights:false,fog:false,wipers:false};currentWx='day';
-  if(typeof NN!=='undefined')NN.reset();
-  $('endModal').classList.add('hidden');
-  $('pageApp').classList.remove('active');
-  $('pageLand').classList.add('active');
+  document.getElementById('endModal').classList.add('hidden');
+  document.getElementById('pageApp').classList.remove('active');
+  document.getElementById('pageLand').classList.add('active');
   // reset form
-  ['inSchool','inClass','inSection','inTable'].forEach(id=>{$(id).value=''});
-  ['fSchool','fClass','fSection','fTable'].forEach(id=>{$(id).classList.remove('err')});
+  ['inSchool','inClass','inSection','inTable'].forEach(id=>{document.getElementById(id).value=''});
+  ['fSchool','fClass','fSection','fTable'].forEach(id=>{document.getElementById(id).classList.remove('err')});
 }
 
-// Session restore is handled in the boot sequence at the end of this script
-// (kept there so a restore error can never stop the render loop from starting).
+// On load: restore session if it exists
+(function(){
+  const s=loadSession();
+  if(s&&s.school){launchApp(s)}
+})();
 
 /* ──────────── CANVAS ──────────── */
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
@@ -592,13 +527,9 @@ const OBJ={
   ambulance: {cat:'vehicle',color:'white',size:'large', emoji:'🚑',render:'lane'},
   box:       {cat:'object',color:'brown', size:'small', emoji:'📦',render:'lane'},
   ball:      {cat:'object',color:'red',   size:'small', emoji:'⚽',render:'lane'},
-  sign_speed:  {cat:'sign',color:'red',   size:'medium',emoji:'🚏',render:'sign',sign:'speed'},
-  sign_school: {cat:'sign',color:'yellow',size:'medium',emoji:'🚸',render:'sign',sign:'school'},
-  sign_parking:{cat:'sign',color:'blue',  size:'medium',emoji:'🅿️',render:'sign',sign:'parking'},
-  sign_stop:   {cat:'sign',color:'red',   size:'medium',emoji:'🛑',render:'sign',sign:'stop'},
 };
-const CATS=[['signal','🚦 Signals'],['sign','🪧 Signboards'],['marking','🦓 Road marks'],['person','🚶 People'],['animal','🐕 Animals'],['barrier','🚧 Barriers'],['vehicle','🚙 Vehicles'],['object','📦 Objects']];
-const SHAPE={signal:'tall on a pole',sign:'board on a roadside pole',marking:'flat on the road',person:'upright & moving',animal:'low & moving',barrier:'cone-shaped or flat',vehicle:'big & boxy',object:'small & still'};
+const CATS=[['signal','🚦 Signals'],['marking','🦓 Road marks'],['person','🚶 People'],['animal','🐕 Animals'],['barrier','🚧 Barriers'],['vehicle','🚙 Vehicles'],['object','📦 Objects']];
+const SHAPE={signal:'tall on a pole',marking:'flat on the road',person:'upright & moving',animal:'low & moving',barrier:'cone-shaped or flat',vehicle:'big & boxy',object:'small & still'};
 
 /* ──────────── State ──────────── */
 let mode='teach',phase='idle',running=false;
@@ -612,7 +543,6 @@ let spawnTimer=null,holdTimer=null;
 let rainDrops=[],lightningT=0,nightAmt=0;
 let envState={lights:false,fog:false,wipers:false};
 let wxTimer=null,envOpen=false,wiperT=0;
-let indicator={dir:null,t:0};  // turn-signal blinkers
 
 /* ──────────── Helpers ──────────── */
 const $=id=>document.getElementById(id);
@@ -664,25 +594,8 @@ function triggerWxChange(){
   if(!running||envOpen||phase!=='driving'){scheduleWxChange();return}
   const next=pick(WX_SEQ.filter(w=>w!==currentWx));
   setWx(next,true);
-  if(mode==='teach'){
-    openEnvPopup(next);          // training: ask the student what to do
-  }else{
-    autoApplyWeather(next);      // live: adapt silently, no popup
-  }
+  openEnvPopup(next);
   scheduleWxChange();
-}
-/* Live mode: apply the trained response automatically, no modal */
-function autoApplyWeather(cond){
-  const e=envFind(cond),info=ENV_INFO[cond];
-  if(e){
-    applyEnvAction(cond,e.onOff);
-    log('🌦 '+info.label+' → '+e.action+' <i>(trained response)</i>');
-    toast(info.icon+' '+info.label+' — '+e.action,'think');
-  }else{
-    // never trained for this condition — keep driving, note the gap
-    log('🌦 '+info.label+' detected — no trained response, driving as-is');
-    toast(info.icon+' '+info.label,'think');
-  }
 }
 function envFind(cond){return KB.find(e=>e.cat==='env'&&e.cond===cond)}
 function openEnvPopup(cond){
@@ -739,24 +652,19 @@ let envPrevSpeed=CRUISE;
 /* ──────────── Mode ──────────── */
 function setMode(m){
   mode=m;
-  // close any open teaching popup when switching modes
-  envOpen=false;$('envModal').classList.add('hidden');
   $('tabTeach').classList.toggle('active',m==='teach');
   $('tabDrive').classList.toggle('active',m==='drive');
   $('panelTeach').style.display=m==='teach'?'flex':'none';
   $('panelDrive').style.display=m==='drive'?'flex':'none';
   $('hudMode').className='htag '+(m==='drive'?'drive':'teach')+(currentWx==='night'?' night':'');
-  $('hudMode').innerHTML=m==='drive'?'🚗 LIVE':'🎓 TRAINING';
-  if($('nnMode'))$('nnMode').textContent=m==='drive'?'LIVE':'TRAINING';
+  $('hudMode').innerHTML=m==='drive'?'🚗 DRIVING':'🎓 LEARNING';
   clearTimeout(spawnTimer);clearTimeout(holdTimer);
   sc=null;phase='idle';speed=0;targetSpeed=0;carLane=1;carTargetX=LANES[1];running=false;bubble=null;
-  indicator={dir:null,t:0};
-  if(typeof NN!=='undefined')NN.reset();
   $('btnStart').disabled=false;$('btnStop').disabled=true;
   $('btnDrive').textContent='▶ Start driving';
   resetTeachBody();resetBrain();
   if(m==='drive'){
-    if(!KB.length)toast('Train at least one object first','think');
+    if(!KB.length)toast('Teach me something first! 🎓','think');
     running=true;phase='driving';targetSpeed=CRUISE;$('btnDrive').textContent='⏸ Pause';
     scheduleSpawn(900);scheduleWxChange();
   }
@@ -777,13 +685,12 @@ function spawn(){
   while(chosen.length<n){const k=pick(keys);if(!chosen.includes(k))chosen.push(k)}
   let usedLanes=[];
   const objs=chosen.map(key=>{
-    const o=OBJ[key];let lane=1,dy=0,side=null;
+    const o=OBJ[key];let lane=1,dy=0;
     if(o.render==='signal')dy=-70;
     else if(o.render==='zebra')dy=0;
-    else if(o.render==='sign'){side=pick(['left','right']);dy=0;lane=-1}
     else if(o.render==='cross'){lane=pick([0,1,2]);dy=0}
     else{lane=[0,1,2].filter(l=>!usedLanes.includes(l))[0]??pick([0,1,2]);usedLanes.push(lane);dy=46}
-    return{key,lane,dy,side,crossX:null,walk:false};
+    return{key,lane,dy,crossX:null,walk:false};
   });
   sc={objs,y:-175,fired:false,done:false,decided:null,detect:null};lidarFound=0;
 }
@@ -796,48 +703,45 @@ function onTrigger(){
 
 function teachTrigger(detect){
   const unknown=detect.filter(d=>!d.exact);
-  bubble={txt:unknown.length?'New object detected':'Recognised',t:0};
-  const lead=detect[0];
+  bubble={txt:unknown.length?'I found something! 🤔':'I know this! 😄',t:0};
   if(unknown.length===0){
     phase='holding';targetSpeed=0;
-    NN.fire(nnInput(lead.f),MOT2OUT[lead.exact.motion],100,nnLabel(lead.f),lead.exact.label);
-    $('teachBody').innerHTML='<div class="detect-head" style="margin-bottom:8px">✅ Already trained '+(detect.length>1?'these':'this')+'</div>'+detect.map(d=>knownCard(d)).join('');
+    $('teachBody').innerHTML='<div class="detect-head" style="margin-bottom:8px">😄 I already learned '+(detect.length>1?'these!':'this!')+'</div>'+detect.map(d=>knownCard(d)).join('');
     detect.forEach(d=>log('🧠 Recognised <b>'+d.exact.label+'</b> → '+d.exact.action));
     holdTimer=setTimeout(()=>{sc.decided=combine(detect.map(d=>d.exact.motion));execute(sc.decided)},1500);
     return;
   }
   phase='asking';targetSpeed=0;
-  NN.process(nnInput(lead.f),nnLabel(lead.f));  // output undecided — student will choose
   let idx=0;
   const cards=detect.map(d=>{
     if(d.exact)return knownCard(d);
     const i=idx++;d._i=i;
     return '<div class="ocard"><div class="otop"><div class="em">'+OBJ[d.o.key].emoji+'</div>'+
-      '<div><div class="detect-head" style="font-size:14px">🔍 New object '+(detect.length>1?'#'+(i+1):'')+'</div>'+
+      '<div><div class="detect-head" style="font-size:14px">🔍 Unknown object '+(detect.length>1?'#'+(i+1):'')+'</div>'+
       '<div class="lidar-txt">📡 Lidar reads: <b>'+describe(d.f)+'</b></div></div></div>'+
-      '<div class="fi"><label>What is this? (your label)</label>'+
+      '<div class="fi"><label>What is this? (you name it)</label>'+
       '<input id="nm'+i+'" placeholder="e.g. green traffic light" autocomplete="off"></div>'+
-      '<div class="fi"><label>What should the car do?</label>'+
+      '<div class="fi"><label>What should I do?</label>'+
       '<input id="ac'+i+'" placeholder="e.g. go" autocomplete="off">'+
       '<div class="chips">'+['Go','Stop','Slow down','Steer left','Steer right'].map(c=>'<button onclick="fillAct('+i+',\''+c+'\')">'+c+'</button>').join('')+'</div></div></div>';
   }).join('');
   $('teachBody').innerHTML=
-    '<div class="detect-head" style="margin-bottom:10px">🔍 Lidar detected '+detect.length+' object'+(detect.length>1?'s — label each one':'')+'</div>'+
-    cards+'<button class="btn-ok" onclick="okTeach()">✅ Save to training memory</button>';
+    '<div class="detect-head" style="margin-bottom:10px">🔍 Lidar found '+detect.length+' object'+(detect.length>1?'s: teach me each one!':'!')+'</div>'+
+    cards+'<button class="btn-ok" onclick="okTeach()">✅ Got it — save to memory</button>';
   setTimeout(()=>{const e=$('nm0');e&&e.focus()},60);
 }
 
 function knownCard(d){
   return '<div class="ocard known"><div class="otop"><div class="em">'+OBJ[d.o.key].emoji+'</div>'+
-    '<div><div class="knownmsg">✅ Already trained</div>'+
-    '<div class="lidar-txt">It\'s a <b>'+d.exact.label+'</b> → action: <b>'+d.exact.action+'</b></div></div></div></div>';
+    '<div><div class="knownmsg">✅ I already know this!</div>'+
+    '<div class="lidar-txt">It\'s a <b>'+d.exact.label+'</b> → I\'ll <b>'+d.exact.action+'</b></div></div></div></div>';
 }
 function fillAct(i,v){const e=$('ac'+i);if(e)e.value=v}
 
 function okTeach(){
   const unknown=sc.detect.filter(d=>!d.exact);
   for(const d of unknown){
-    if(!($('nm'+d._i).value||'').trim()||!($('ac'+d._i).value||'').trim()){toast('Add a label and an action for each object','think');return}
+    if(!($('nm'+d._i).value||'').trim()||!($('ac'+d._i).value||'').trim()){toast('Name each object and say what to do 😊','think');return}
   }
   unknown.forEach(d=>{
     const nm=$('nm'+d._i).value.trim(),ac=$('ac'+d._i).value.trim();
@@ -846,10 +750,8 @@ function okTeach(){
     log('📥 Learned: <b>'+nm+'</b> → '+ac);
   });
   beep(660,.1);setTimeout(()=>beep(880,.12),100);confetti(38);updateKB();persistKB();
-  toast('Saved to training memory','happy');
-  const lead=sc.detect[0];
-  if(lead&&lead.exact)NN.fire(nnInput(lead.f),MOT2OUT[lead.exact.motion],100,nnLabel(lead.f),lead.exact.label);
-  $('teachBody').innerHTML='<div class="scan-strip"><div class="radar" style="border-color:var(--mint)"></div><div><b style="font-family:Fredoka;font-size:15px">Saved.</b><div class="muted">Watch the car apply what you trained…</div></div></div>';
+  toast('Got it! Memory saved 🧠','happy');
+  $('teachBody').innerHTML='<div class="scan-strip"><div class="radar" style="border-color:var(--mint)"></div><div><b style="font-family:Fredoka;font-size:15px">Saved!</b><div class="muted">Watch me do what you taught…</div></div></div>';
   sc.decided=combine(sc.detect.map(d=>d.exact.motion));execute(sc.decided);
 }
 function persistKB(){const sess=loadSession();if(sess){sess.KB=KB;saveSession(sess)}}
@@ -870,32 +772,28 @@ function driveTrigger(detect){
   });
   sc.results=results;
   const lead=results[0];
-  /* fire the neural network with the live decision + confidence */
-  const leadMotion=lead.kind==='unknown'?'slow':lead.entry.motion;
-  const leadConf=lead.kind==='known'?100:lead.kind==='guess'?Math.round(lead.sim*100):30;
-  NN.fire(nnInput(lead.d.f),MOT2OUT[leadMotion],leadConf,nnLabel(lead.d.f),lead.entry?lead.entry.label:'unknown object');
-  let think=lead.kind==='known'?'Recognised: '+lead.entry.label+'.':lead.kind==='guess'?'Inferred — closest match is '+lead.entry.label+'.':'No close match. Slowing down to stay safe.';
+  let think=lead.kind==='known'?'I know this! It\'s a '+lead.entry.label+'.':lead.kind==='guess'?'Hmm… looks like a '+lead.entry.label+' I learned.':'I\'ve never seen this before. Slowing down!';
   $('brainTxt').textContent=think;
-  bubble={txt:lead.kind==='known'?'Recognised':lead.kind==='guess'?'Inferred':'Unknown — slowing',t:0};
+  bubble={txt:lead.kind==='known'?'I know this! 😎':lead.kind==='guess'?'Looks familiar… 🤔':'Never seen this! 😯',t:0};
   $('recogList').innerHTML=results.map(r=>{
     const em=OBJ[r.d.o.key].emoji;
-    if(r.kind==='known')return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>'+r.entry.label+'</b><span>Action: '+r.entry.action+'</span></div><span class="badge known">KNOWN</span></div>';
-    if(r.kind==='guess')return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>Closest: '+r.entry.label+'</b><span>'+Math.round(r.sim*100)+'% match → '+r.entry.action+'</span></div><span class="badge guess">INFERRED</span></div>';
-    return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>Unknown object</b><span>No close match → slow &amp; careful</span></div><span class="badge unknown">UNKNOWN</span></div>';
+    if(r.kind==='known')return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>'+r.entry.label+'</b><span>I\'ll '+r.entry.action+'</span></div><span class="badge known">KNOWN</span></div>';
+    if(r.kind==='guess')return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>Looks like: '+r.entry.label+'</b><span>'+Math.round(r.sim*100)+'% similar → '+r.entry.action+'</span></div><span class="badge guess">GUESS</span></div>';
+    return'<div class="recog"><span class="em">'+em+'</span><div class="rt"><b>Brand new!</b><span>Nothing similar → slow &amp; careful</span></div><span class="badge unknown">NEW</span></div>';
   }).join('');
   results.forEach(r=>{stats.seen++;stats[r.kind==='known'?'known':r.kind==='guess'?'guess':'unknown']++});
   $('stSeen').textContent=stats.seen;$('stKnown').textContent=stats.known;$('stGuess').textContent=stats.guess;$('stUnknown').textContent=stats.unknown;
-  results.forEach(r=>log((r.kind==='known'?'🧠':r.kind==='guess'?'✨':'❓')+' '+(r.kind==='known'?'Recognised':r.kind==='guess'?'Inferred':'Unknown')+': '+(r.entry?r.entry.label:'new')+' → '+(r.entry?r.entry.action:'careful')));
+  results.forEach(r=>log((r.kind==='known'?'🧠':r.kind==='guess'?'✨':'❓')+' '+(r.kind==='known'?'Knew':'Guessed')+': '+(r.entry?r.entry.label:'new')+' → '+(r.entry?r.entry.action:'careful')));
   beep(lead.kind==='unknown'?260:620,.12,lead.kind==='unknown'?'sawtooth':'sine');
   setTimeout(()=>{sc.decided=combine(results.map(r=>r.kind==='unknown'?'slow':r.entry.motion));execute(sc.decided)},900);
 }
-function resetBrain(){$('brainTxt').textContent='Driving with the model you trained.';$('recogList').innerHTML='';stats={seen:0,known:0,guess:0,unknown:0};['stSeen','stKnown','stGuess','stUnknown'].forEach(id=>$(id)&&($(id).textContent='0'))}
+function resetBrain(){$('brainTxt').textContent='Ready to drive using what you taught me.';$('recogList').innerHTML='';stats={seen:0,known:0,guess:0,unknown:0};['stSeen','stKnown','stGuess','stUnknown'].forEach(id=>$(id)&&($(id).textContent='0'))}
 
 function execute(motion){
   phase='executing';
   if(motion==='stop'){targetSpeed=0}
   else if(motion==='slow'){targetSpeed=CRUISE*.4}
-  else{targetSpeed=CRUISE;if(motion==='left'){carLane=Math.max(0,carLane-1);carTargetX=LANES[carLane];indicator={dir:'left',t:90}}if(motion==='right'){carLane=Math.min(2,carLane+1);carTargetX=LANES[carLane];indicator={dir:'right',t:90}}}
+  else{targetSpeed=CRUISE;if(motion==='left'){carLane=Math.max(0,carLane-1);carTargetX=LANES[carLane]}if(motion==='right'){carLane=Math.min(2,carLane+1);carTargetX=LANES[carLane]}}
 }
 function resolveScene(){
   if(mode==='drive'&&sc.decided==='go'){
@@ -932,7 +830,6 @@ function updateScene(){
   }
   if(phase==='holding')sc.objs.forEach(o=>{if(o.walk){o.crossX=(o.crossX==null?LANES[o.lane]-14:o.crossX)+(o.key==='child'?3.6:2.6)}});
   if(bubble)bubble.t++;
-  if(indicator.dir){indicator.t--;if(indicator.t<=0)indicator={dir:null,t:0}}
 }
 
 /* ════════════════════ IMPROVED RENDER ════════════════════ */
@@ -1148,7 +1045,6 @@ function drawLamps(){
 
 function drawObject(o){
   const f=OBJ[o.key],y=sc.y+o.dy;
-  if(f.render==='sign'){drawSign(o,f,y);return}
   if(f.render==='signal'){
     const gy=y;
     /* gantry pole */
@@ -1175,56 +1071,15 @@ function drawObject(o){
     ctx.textAlign='start';
   }
 }
-/* roadside x-position for a sign (on the kerb, just inside the road) */
-function signX(o){return (o.side==='left')?ROAD_L-34:ROAD_R+34}
-function drawSign(o,f,y){
-  const px=signX(o), poleTop=y-2, poleBot=y+34;
-  /* pole */
-  const pg=ctx.createLinearGradient(px-3,0,px+3,0);
-  pg.addColorStop(0,'#A8B0BF');pg.addColorStop(.5,'#7C8597');pg.addColorStop(1,'#5E6678');
-  ctx.fillStyle=pg;ctx.fillRect(px-2.5,poleTop,5,poleBot-poleTop);
-  ctx.save();ctx.shadowColor='rgba(0,0,0,.28)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;
-  const t=f.sign;
-  if(t==='speed'){
-    /* white roundel, red ring, "50" */
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(px,y-18,17,0,Math.PI*2);ctx.fill();
-    ctx.restore();
-    ctx.lineWidth=5;ctx.strokeStyle='#E23B3B';ctx.beginPath();ctx.arc(px,y-18,15,0,Math.PI*2);ctx.stroke();
-    ctx.fillStyle='#22243F';ctx.font='800 14px Fredoka';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('50',px,y-17);
-  }else if(t==='school'){
-    /* yellow diamond, walking-kids glyph */
-    ctx.save();ctx.translate(px,y-18);ctx.rotate(Math.PI/4);
-    ctx.fillStyle='#F7C948';ctx.fillRect(-15,-15,30,30);
-    ctx.restore();ctx.restore();
-    ctx.lineWidth=2.5;ctx.strokeStyle='#22243F';ctx.save();ctx.translate(px,y-18);ctx.rotate(Math.PI/4);ctx.strokeRect(-15,-15,30,30);ctx.restore();
-    ctx.font='17px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🚸',px,y-17);
-  }else if(t==='parking'){
-    /* blue square, white P */
-    ctx.fillStyle='#1A6FD6';ctx.beginPath();ctx.roundRect(px-15,y-33,30,30,5);ctx.fill();
-    ctx.restore();
-    ctx.lineWidth=2.5;ctx.strokeStyle='#fff';ctx.beginPath();ctx.roundRect(px-15,y-33,30,30,5);ctx.stroke();
-    ctx.fillStyle='#fff';ctx.font='800 20px Fredoka';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('P',px,y-17);
-  }else if(t==='stop'){
-    /* red octagon, STOP */
-    ctx.fillStyle='#D32F2F';ctx.beginPath();
-    for(let i=0;i<8;i++){const a=Math.PI/8+i*Math.PI/4;const r=16;const xx=px+Math.cos(a)*r,yy=(y-18)+Math.sin(a)*r;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)}
-    ctx.closePath();ctx.fill();ctx.restore();
-    ctx.lineWidth=2;ctx.strokeStyle='#fff';ctx.stroke();
-    ctx.fillStyle='#fff';ctx.font='800 9px Fredoka';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('STOP',px,y-17);
-  }else{ctx.restore()}
-  ctx.textAlign='start';ctx.textBaseline='alphabetic';
-}
-
 function drawDetect(){
   const isAsk=phase==='asking'||(phase==='holding'&&mode==='teach');
   sc.objs.forEach(o=>{
     const f=OBJ[o.key],y=sc.y+o.dy;let bx,by,bw,bh;
     if(f.render==='signal'){bx=LANES[1]-22;by=y-42;bw=44;bh=68}
-    else if(f.render==='sign'){const px=signX(o);bx=px-20;by=y-38;bw=40;bh=44}
     else if(f.render==='zebra'){bx=ROAD_L+4;by=y-26;bw=ROAD_W-8;bh=52}
     else if(f.render==='cross'){bx=ROAD_L+4;by=y-24;bw=ROAD_W-8;bh=48}
     else{bx=LANES[o.lane]-24;by=y-20;bw=50;bh=52}
-    const col=isAsk?'#F26A2E':'#2DB6DC';
+    const col=isAsk?'#FF7A3D':'#34C6EC';
     ctx.strokeStyle=col;ctx.lineWidth=3;ctx.setLineDash([8,5]);
     ctx.beginPath();ctx.roundRect(bx,by,bw,bh,8);ctx.stroke();ctx.setLineDash([]);
     /* corner brackets */
@@ -1234,109 +1089,78 @@ function drawDetect(){
       ctx.beginPath();ctx.moveTo(cx+sx*14,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy+sy*14);ctx.stroke();
     });
     /* label pill */
-    ctx.fillStyle=col;const lbl=isAsk?'DETECTED':'ANALYSING';
+    ctx.fillStyle=col;const lbl=isAsk?'📡 OBJECT FOUND':'🔍 ANALYSING';
     const lw=ctx.measureText(lbl).width;
     ctx.font='700 10px Nunito';
     rr(bx,by-18,lw+16,17,8,col);ctx.fillStyle='#fff';ctx.fillText(lbl,bx+8,by-7);
   });
 }
 function drawCar(){
-  const x=carX,y=CAR_Y, hw=CAR_W/2, hh=CAR_H/2;
-  /* ground shadow */
-  ctx.fillStyle='rgba(0,0,0,.20)';ctx.beginPath();ctx.ellipse(x,y+10,30,17,0,0,Math.PI*2);ctx.fill();
-
-  /* wheels (drawn first, under body) */
-  ctx.fillStyle='#16181F';
-  [[x-hw+2,y-hh+18],[x+hw-2,y-hh+18],[x-hw+2,y+hh-18],[x+hw-2,y+hh-18]].forEach(([wx,wy])=>{
-    rr(wx-4,wy-9,8,18,3,'#16181F');
-  });
-
-  /* body — metallic gradient, smooth capsule shape */
-  ctx.save();ctx.shadowColor='rgba(0,0,0,.28)';ctx.shadowBlur=12;ctx.shadowOffsetY=4;
-  const bg=ctx.createLinearGradient(x-hw,0,x+hw,0);
-  bg.addColorStop(0,'#D6DEEA');bg.addColorStop(.5,'#F4F7FC');bg.addColorStop(1,'#C4CEDC');
-  ctx.fillStyle=bg;
-  ctx.beginPath();ctx.roundRect(x-hw,y-hh,CAR_W,CAR_H,[18,18,16,16]);ctx.fill();
-  ctx.restore();
-
-  /* hood + trunk subtle shading */
-  ctx.fillStyle='rgba(0,0,0,.05)';ctx.beginPath();ctx.roundRect(x-hw+3,y+hh-22,CAR_W-6,18,8);ctx.fill();
-
-  /* roof / accent panel (colour by weather brand) */
-  const accent=currentWx==='night'?'#324B8C':currentWx==='rain'?'#2E6E8C':'#E27148';
-  const rg=ctx.createLinearGradient(0,y-20,0,y+18);
-  rg.addColorStop(0,accent);rg.addColorStop(1,darken(accent,.12));
-  ctx.fillStyle=rg;ctx.beginPath();ctx.roundRect(x-hw+5,y-19,CAR_W-10,40,9);ctx.fill();
-
-  /* glass canopy — windshield (front) */
-  const gw=ctx.createLinearGradient(0,y-30,0,y-12);
-  gw.addColorStop(0,'#Bfe4f5');gw.addColorStop(1,'#7FB8DA');
-  ctx.fillStyle=gw;ctx.beginPath();ctx.roundRect(x-15,y-30,30,15,[8,8,3,3]);ctx.fill();
-  /* rear glass */
-  ctx.fillStyle='#8FC2E0';ctx.beginPath();ctx.roundRect(x-13,y+11,26,11,[3,3,7,7]);ctx.fill();
-  /* glass highlight */
-  ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.roundRect(x-12,y-28,9,10,3);ctx.fill();
-
+  const x=carX,y=CAR_Y;
+  /* shadow */
+  ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(x,y+8,28,16,0,0,Math.PI*2);ctx.fill();
+  /* body */
+  ctx.save();
+  /* subtle body shadow */
+  ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=14;ctx.shadowOffsetY=4;
+  rr(x-CAR_W/2,y-CAR_H/2,CAR_W,CAR_H,15,'#F0F4FA');ctx.restore();
+  /* colour accent stripe */
+  rr(x-CAR_W/2,y-8,CAR_W,18,4,currentWx==='night'?'#2A3F7E':currentWx==='rain'?'#3A6E8C':'#E87A5E');
+  /* windshield */
+  rr(x-17,y-27,34,18,7,'#A8D8F0');
+  /* rear window */
+  rr(x-14,y+11,28,13,5,'#A8D8F0');
   /* body outline */
-  ctx.strokeStyle='rgba(20,22,35,.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-hw,y-hh,CAR_W,CAR_H,[18,18,16,16]);ctx.stroke();
-
+  ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x-CAR_W/2,y-CAR_H/2,CAR_W,CAR_H,15);ctx.stroke();
   /* side mirrors */
-  ctx.fillStyle='#C4CEDC';rr(x-hw-5,y-18,6,7,2,'#C4CEDC');rr(x+hw-1,y-18,6,7,2,'#C4CEDC');
-
-  /* sensor / lidar dome on roof */
-  ctx.fillStyle='#16181F';ctx.beginPath();ctx.arc(x,y-2,8,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#23263C';ctx.beginPath();ctx.arc(x,y-2,6,0,Math.PI*2);ctx.fill();
-  const lidarCol=mode==='drive'?(Math.floor(frame/12)%2?'#34C99A':'#8A6FE0'):'#2DB6DC';
-  ctx.fillStyle=lidarCol;ctx.beginPath();ctx.arc(x,y-2,3,0,Math.PI*2);ctx.fill();
-  if(Math.floor(frame/12)%2===0){ctx.save();ctx.globalAlpha=.35;const lg=ctx.createRadialGradient(x,y-2,2,x,y-2,15);lg.addColorStop(0,lidarCol);lg.addColorStop(1,lidarCol+'00');ctx.fillStyle=lg;ctx.beginPath();ctx.arc(x,y-2,15,0,Math.PI*2);ctx.fill();ctx.restore()}
-
-  /* headlights */
+  ctx.fillStyle='#D8E2EE';rr(x-CAR_W/2-6,y-25,7,8,3,'#D8E2EE');rr(x+CAR_W/2-1,y-25,7,8,3,'#D8E2EE');
+  ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1;ctx.strokeRect(x-CAR_W/2-6,y-25,7,8);ctx.strokeRect(x+CAR_W/2-1,y-25,7,8);
+  /* wheel arches */
+  ctx.fillStyle='rgba(0,0,0,.18)';ctx.fillRect(x-CAR_W/2,y-11,8,16);ctx.fillRect(x+CAR_W/2-8,y-11,8,16);
+  /* wheels */
+  [[x-CAR_W/2+3,y-3],[x+CAR_W/2-3,y-3],[x-CAR_W/2+3,y+22],[x+CAR_W/2-3,y+22]].forEach(([wx,wy])=>{
+    ctx.fillStyle='#1A1A2E';ctx.beginPath();ctx.ellipse(wx,wy,5,6,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#444';ctx.beginPath();ctx.ellipse(wx,wy,2,2.5,0,0,Math.PI*2);ctx.fill();
+  });
+  /* lidar dome */
+  ctx.fillStyle='#1A1A2E';ctx.beginPath();ctx.arc(x,y-3,9,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#2A2A4E';ctx.beginPath();ctx.arc(x,y-3,7,0,Math.PI*2);ctx.fill();
+  const lidarCol=mode==='drive'?(Math.floor(frame/12)%2?'#3DD9A8':'#9B7EF0'):'#34C6EC';
+  ctx.fillStyle=lidarCol;ctx.beginPath();ctx.arc(x,y-3,3.5,0,Math.PI*2);ctx.fill();
+  /* lidar blink glow */
+  if(Math.floor(frame/12)%2===0){ctx.save();ctx.globalAlpha=.35;const lg=ctx.createRadialGradient(x,y-3,2,x,y-3,14);lg.addColorStop(0,lidarCol);lg.addColorStop(1,lidarCol+'00');ctx.fillStyle=lg;ctx.beginPath();ctx.arc(x,y-3,14,0,Math.PI*2);ctx.fill();ctx.restore()}
+  /* headlights — bright if taught to switch on at night, otherwise dim */
   const lightsOn=currentWx==='night'&&envState.lights;
-  ctx.fillStyle=lightsOn?'#FFFACC':(currentWx==='night'?'#3A3F55':'#FFEFC2');
-  rr(x-hw+4,y-hh+1,9,4,2,ctx.fillStyle);rr(x+hw-13,y-hh+1,9,4,2,ctx.fillStyle);
+  ctx.fillStyle=lightsOn?'#FFFACC':(currentWx==='night'?'#3A3F55':'#FFE8A8');
+  ctx.fillRect(x-CAR_W/2,y-CAR_H/2-1,10,5);ctx.fillRect(x+CAR_W/2-10,y-CAR_H/2-1,10,5);
   if(lightsOn){
     ctx.save();ctx.globalCompositeOperation='lighter';
-    ctx.fillStyle='rgba(255,248,180,.18)';
-    ctx.beginPath();ctx.moveTo(x-hw+6,y-hh);ctx.lineTo(x-hw-10,y-hh-30);ctx.lineTo(x-hw+18,y-hh-30);ctx.closePath();ctx.fill();
-    ctx.beginPath();ctx.moveTo(x+hw-6,y-hh);ctx.lineTo(x+hw-18,y-hh-30);ctx.lineTo(x+hw+10,y-hh-30);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(255,248,180,.18)';ctx.beginPath();ctx.moveTo(x-CAR_W/2+5,y-CAR_H/2);ctx.lineTo(x-CAR_W/2-10,y-CAR_H/2-30);ctx.lineTo(x-CAR_W/2+18,y-CAR_H/2-30);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.moveTo(x+CAR_W/2-5,y-CAR_H/2);ctx.lineTo(x+CAR_W/2-18,y-CAR_H/2-30);ctx.lineTo(x+CAR_W/2+10,y-CAR_H/2-30);ctx.closePath();ctx.fill();
     ctx.restore();
   }
-
-  /* turn indicators (amber blinkers) */
-  if(indicator.dir&&Math.floor(frame/8)%2===0){
-    ctx.fillStyle='#FF9B2E';ctx.save();ctx.shadowColor='#FF9B2E';ctx.shadowBlur=8;
-    if(indicator.dir==='left'){rr(x-hw+1,y-hh+6,4,6,2,'#FF9B2E');rr(x-hw+1,y+hh-12,4,6,2,'#FF9B2E')}
-    else{rr(x+hw-5,y-hh+6,4,6,2,'#FF9B2E');rr(x+hw-5,y+hh-12,4,6,2,'#FF9B2E')}
-    ctx.restore();
-  }
-
-  /* fog lamps */
+  /* fog lamps — small amber lamps low on the bumper, lit if taught during fog */
   const fogOn=currentWx==='fog'&&envState.fog;
   ctx.fillStyle=fogOn?'#FFB23F':'#C8A878';
-  ctx.beginPath();ctx.arc(x-hw+6,y-hh+7,2.5,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(x+hw-6,y-hh+7,2.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x-CAR_W/2+5,y-CAR_H/2+7,3,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x+CAR_W/2-5,y-CAR_H/2+7,3,0,Math.PI*2);ctx.fill();
   if(fogOn){
     ctx.save();ctx.globalCompositeOperation='lighter';
-    [[x-hw+6],[x+hw-6]].forEach(([fx])=>{const fg=ctx.createRadialGradient(fx,y-hh+7,1,fx,y-hh+7,12);fg.addColorStop(0,'rgba(255,178,63,.5)');fg.addColorStop(1,'rgba(255,178,63,0)');ctx.fillStyle=fg;ctx.beginPath();ctx.arc(fx,y-hh+7,12,0,Math.PI*2);ctx.fill()});
+    [[x-CAR_W/2+5],[x+CAR_W/2-5]].forEach(([fx])=>{const fg=ctx.createRadialGradient(fx,y-CAR_H/2+7,1,fx,y-CAR_H/2+7,12);fg.addColorStop(0,'rgba(255,178,63,.5)');fg.addColorStop(1,'rgba(255,178,63,0)');ctx.fillStyle=fg;ctx.beginPath();ctx.arc(fx,y-CAR_H/2+7,12,0,Math.PI*2);ctx.fill()});
     ctx.restore();
   }
-
-  /* wipers */
+  /* wipers — sweep over the windshield, only if taught during rain */
   if(currentWx==='rain'&&envState.wipers){
     wiperT+=.07;const sweep=Math.sin(wiperT)*1.0;
-    ctx.save();ctx.strokeStyle='#22243F';ctx.lineWidth=2;ctx.lineCap='round';
-    [[x-8,y-16],[x+8,y-16]].forEach(([px,py],i)=>{
+    ctx.save();ctx.strokeStyle='#2B2A4C';ctx.lineWidth=2;ctx.lineCap='round';
+    [[x-9,y-20],[x+9,y-20]].forEach(([px,py],i)=>{
       const ang=-Math.PI/2+sweep*(i===0?1:-1);
-      ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+Math.cos(ang)*12,py+Math.sin(ang)*12);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+Math.cos(ang)*13,py+Math.sin(ang)*13);ctx.stroke();
     });
     ctx.restore();
   }
-
-  /* tail lights (brake) */
-  const braking=targetSpeed<CRUISE*.15&&speed>.02;
-  ctx.fillStyle=braking?'#FF3B4D':'#9E2A33';
-  rr(x-hw+4,y+hh-5,9,4,2,ctx.fillStyle);rr(x+hw-13,y+hh-5,9,4,2,ctx.fillStyle);
-  if(braking){ctx.save();ctx.globalCompositeOperation='lighter';[[x-hw+8],[x+hw-8]].forEach(([bx])=>{const bgl=ctx.createRadialGradient(bx,y+hh,1,bx,y+hh,10);bgl.addColorStop(0,'rgba(255,59,77,.6)');bgl.addColorStop(1,'rgba(255,59,77,0)');ctx.fillStyle=bgl;ctx.beginPath();ctx.arc(bx,y+hh,10,0,Math.PI*2);ctx.fill()});ctx.restore()}
+  /* brake lights */
+  if(targetSpeed<CRUISE*.15&&speed>.02){ctx.fillStyle='#FF4D5E';ctx.fillRect(x-CAR_W/2,y+CAR_H/2-4,10,5);ctx.fillRect(x+CAR_W/2-10,y+CAR_H/2-4,10,5)}
 }
 function drawBubble(){
   const x=carX,y=CAR_Y-CAR_H/2-16;ctx.font='700 13px Nunito';
@@ -1390,28 +1214,6 @@ function updateKB(){
   $('knowCount').textContent=KB.length;
   const cats=new Set(KB.map(e=>e.cat));
   $('kmap').innerHTML=CATS.map(c=>'<span class="k'+(cats.has(c[0])?' has':'')+'"><b>'+(cats.has(c[0])?'✓ ':'')+c[1]+'</b></span>').join('');
-  updateReadiness();
-}
-/* Live-mode readiness: how broadly the model has been trained */
-function updateReadiness(){
-  const objCats=new Set(KB.filter(e=>e.cat!=='env').map(e=>e.cat));
-  const envConds=new Set(KB.filter(e=>e.cat==='env').map(e=>e.cond));
-  const concepts=objCats.size+envConds.size;
-  const target=7;                       // ~7 distinct concepts ≈ ready
-  const pct=Math.min(100,Math.round(concepts/target*100));
-  const fill=$('readyFill'),val=$('readyVal'),msg=$('readyMsg');
-  if(!fill)return;
-  fill.style.width=pct+'%';
-  val.textContent=pct+'%';
-  let col;
-  if(pct<40)col='linear-gradient(90deg,#F4595B,#F26A2E)';
-  else if(pct<80)col='linear-gradient(90deg,#F26A2E,#F5C13B)';
-  else col='linear-gradient(90deg,#F5C13B,#34C99A)';
-  fill.style.background=col;
-  val.style.color=pct<40?'#F4595B':pct<80?'#E2942A':'#188A67';
-  if(pct<40)msg.innerHTML='<b>Keep training.</b> Add a few different object types to prepare for Live mode.';
-  else if(pct<80)msg.innerHTML='<b>Getting there.</b> Train more object types and weather responses for reliable driving.';
-  else msg.innerHTML='<b>Ready for Live mode.</b> The model covers most situations — switch to Live to test it.';
 }
 function openKB(){
   $('kbRows').innerHTML=KB.length?KB.map((e,i)=>`<tr><td style="color:var(--ink-soft)">${i+1}</td><td>${describe(e)}</td><td><b>${e.label}</b></td><td>${e.action}</td><td><button class="del" onclick="forget(${i})">forget</button></td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;color:var(--ink-soft);padding:24px">You haven\'t taught me anything yet!</td></tr>';
@@ -1421,153 +1223,9 @@ function forget(i){KB.splice(i,1);updateKB();persistKB();openKB();log('🗑 Forg
 function forgetAll(){KB=[];updateKB();persistKB();openKB();log('🗑 <b>Forgot everything.</b>')}
 function closeKB(){$('kbModal').classList.add('hidden')}
 
-/* ════════════════════ NEURAL NETWORK VISUALIZATION ════════════════════
-   A live feed-forward network: Input (sensor readings) → Hidden (processing)
-   → Output (decision). Animates a signal wave on every detection, in both
-   Training and Live modes. Visual style follows the reference diagram:
-   navy input/output nodes, coral hidden nodes, thin connecting edges.        */
-const IN_LABELS=['Shape','Colour','Size','Motion','Range'];
-const OUT_LABELS=['GO','SLOW','STOP','LEFT','RIGHT'];
-const MOT2OUT={go:0,slow:1,stop:2,left:3,right:4};
-function nnInput(f){
-  const sizeVal={small:.42,medium:.7,large:1}[f.size]||.6;
-  const warm=['red','orange','yellow'].includes(f.color)?1:.45;
-  const moving=['person','animal'].includes(f.cat)?1:.32;
-  const shape=Math.min(1,.55+((f.cat==='signal'||f.cat==='sign')?.4:.2));
-  return [shape,warm,sizeVal,moving,1];
-}
-function nnLabel(f){return f.size+' · '+(['red','orange','yellow'].includes(f.color)?'warm':'cool')+' · '+(['person','animal'].includes(f.cat)?'moving':'static')}
-
-const NN=(()=>{
-  const cv2=document.getElementById('nn');
-  let ctx2=null,W2=0,H2=0,dpr=1,raf=0,started=false;
-  const NIN=5,NHID=4,NOUT=5,DUR=1500;
-  let inAct=new Array(NIN).fill(0), chosen=-1, conf=null, deciding=false, t0=-1;
-  const NAVY='#22243F', CORAL='#F4595B';
-
-  function resize(){
-    if(!cv2)return;
-    dpr=Math.min(2,window.devicePixelRatio||1);
-    const r=cv2.getBoundingClientRect();
-    W2=r.width||cv2.clientWidth||600; H2=r.height||220;
-    cv2.width=Math.round(W2*dpr); cv2.height=Math.round(H2*dpr);
-    ctx2=cv2.getContext('2d'); ctx2.setTransform(dpr,0,0,dpr,0,0);
-  }
-  function geom(){
-    const padT=38,padB=22,padX=92;
-    const col=[padX, W2/2, W2-padX];
-    const lay=(n,x)=>Array.from({length:n},(_,i)=>({x,y:padT+(H2-padT-padB)*(n===1?.5:i/(n-1))}));
-    return {inp:lay(NIN,col[0]),hid:lay(NHID,col[1]),out:lay(NOUT,col[2])};
-  }
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  function fire(input,outIndex,confidence,featLbl,name){
-    inAct=input.slice(); chosen=outIndex; conf=confidence; deciding=false; t0=performance.now();
-    setCap(featLbl,name,outIndex,confidence);
-  }
-  function process(input,featLbl){
-    inAct=input.slice(); chosen=-1; conf=null; deciding=true; t0=performance.now();
-    setCap(featLbl,null,-1,null);
-  }
-  function reset(){inAct=new Array(NIN).fill(0);chosen=-1;conf=null;deciding=false;t0=-1;setCap(null);}
-  function setCap(featLbl,name,outIndex,confidence){
-    const ie=$('nnIn'),oe=$('nnOut'),ce=$('nnConf');if(!ie)return;
-    if(!featLbl){ie.textContent='Inputs idle';oe.textContent='awaiting object';ce.textContent='';return;}
-    ie.textContent=featLbl;
-    if(deciding){oe.textContent='processing — you decide';ce.textContent='';}
-    else{oe.textContent='Decision: '+OUT_LABELS[outIndex]+(name?' ('+name+')':'');ce.textContent=confidence!=null?('confidence '+confidence+'%'):'';}
-  }
-  function node(p,col,glow,r){
-    if(glow>0.02){const g=ctx2.createRadialGradient(p.x,p.y,1,p.x,p.y,r+12);g.addColorStop(0,col+'cc');g.addColorStop(1,col+'00');ctx2.fillStyle=g;ctx2.globalAlpha=glow;ctx2.beginPath();ctx2.arc(p.x,p.y,r+12,0,Math.PI*2);ctx2.fill();ctx2.globalAlpha=1;}
-    ctx2.beginPath();ctx2.arc(p.x,p.y,r,0,Math.PI*2);
-    ctx2.fillStyle=col;ctx2.fill();
-    ctx2.lineWidth=2;ctx2.strokeStyle='rgba(255,255,255,.7)';ctx2.stroke();
-  }
-  function edges(A,B,strength,srcAct,targetIdx){
-    for(let i=0;i<A.length;i++)for(let j=0;j<B.length;j++){
-      const s=srcAct?srcAct[i]:1;
-      const hot=(targetIdx==null||targetIdx===j)?strength*(0.4+0.6*s):0;
-      ctx2.lineWidth=hot>0.1?1.8:1;
-      ctx2.strokeStyle=hot>0.1?'rgba(244,89,91,'+clamp(hot,0,.9)+')':'rgba(34,36,63,.16)';
-      ctx2.beginPath();ctx2.moveTo(A[i].x,A[i].y);ctx2.lineTo(B[j].x,B[j].y);ctx2.stroke();
-    }
-  }
-  function pulses(A,B,lp,srcAct,targetIdx){
-    if(lp<=0||lp>=1)return;
-    for(let i=0;i<A.length;i++){
-      if(srcAct&&srcAct[i]<0.3)continue;
-      for(let j=0;j<B.length;j++){
-        if(targetIdx!=null&&targetIdx!==j)continue;
-        const px=A[i].x+(B[j].x-A[i].x)*lp, py=A[i].y+(B[j].y-A[i].y)*lp;
-        ctx2.beginPath();ctx2.arc(px,py,2.6,0,Math.PI*2);ctx2.fillStyle='#34C99A';ctx2.fill();
-      }
-    }
-  }
-  function frame(){
-    raf=requestAnimationFrame(frame);
-    if(!ctx2)return;
-    const now=performance.now();
-    const active=t0>=0;
-    const p=active?(now-t0)/DUR:0;
-    const settled=p>=1;
-    ctx2.clearRect(0,0,W2,H2);
-    const N=geom();
-    const t=now/1000;
-    // layer titles
-    ctx2.textAlign='center';ctx2.font='700 12px Fredoka';
-    ctx2.fillStyle=CORAL;ctx2.fillText('Input Layer',N.inp[0].x,16);
-    ctx2.fillStyle=NAVY;ctx2.fillText('Hidden Layers',N.hid[0].x,16);
-    ctx2.fillStyle=CORAL;ctx2.fillText('Output Layer',N.out[0].x,16);
-    // edge wave windows
-    const eIH=active?clamp((p-0)/0.55,0,1)*(1-clamp((p-0.7)/0.4,0,1)*0.5):0.0;
-    const eHO=active?clamp((p-0.45)/0.5,0,1):0.0;
-    edges(N.inp,N.hid, active?0.9:0, inAct, null);
-    edges(N.hid,N.out, eHO*0.9, null, chosen>=0?chosen:null);
-    // hidden activation as wave arrives
-    const hOn=active?clamp((p-0.3)/0.25,0,1):0;
-    const oOn=active?clamp((p-0.72)/0.22,0,1):0;
-    // pulses
-    if(active){
-      pulses(N.inp,N.hid, clamp(p/0.5,0,1), inAct, null);
-      if(chosen>=0||deciding) pulses(N.hid,N.out, clamp((p-0.45)/0.5,0,1), null, chosen>=0?chosen:null);
-    }
-    // nodes
-    N.inp.forEach((n,i)=>{const a=active?inAct[i]:0.12+0.05*Math.sin(t*2+i);node(n,NAVY,clamp(a,0,1)*0.9,9);});
-    N.hid.forEach((n,j)=>{const a=hOn*(0.55+0.45*Math.sin(t*4+j));node(n,CORAL,active?clamp(a,0,1):0.1,11);});
-    N.out.forEach((n,k)=>{
-      let glow;
-      if(deciding) glow=oOn*0.25;                       // undecided: faint pulse on all
-      else if(k===chosen) glow=settled?0.95:oOn;        // chosen: bright
-      else glow=oOn*0.08;
-      node(n,NAVY,glow,9);
-    });
-    // per-node labels
-    ctx2.font='700 9.5px Nunito';
-    ctx2.textAlign='right';ctx2.fillStyle='rgba(34,36,63,.7)';
-    N.inp.forEach((n,i)=>ctx2.fillText(IN_LABELS[i],n.x-15,n.y+3));
-    ctx2.textAlign='left';
-    N.out.forEach((n,k)=>{const on=(!deciding&&k===chosen);ctx2.fillStyle=on?CORAL:'rgba(34,36,63,.7)';ctx2.font=(on?'800 ':'700 ')+'9.5px Nunito';ctx2.fillText(OUT_LABELS[k],n.x+15,n.y+3);});
-    ctx2.textAlign='start';
-    // auto-clear pulses after settle (keep decision lit)
-    if(active&&p>1.25){/* keep final state, stop pulses by leaving t0 — pulses already gated p<1 */}
-  }
-  function start(){if(started)return;started=true;resize();frame();window.addEventListener('resize',()=>{clearTimeout(start._r);start._r=setTimeout(resize,150)});}
-  return {start,resize,fire,process,reset};
-})();
-
-/* ════════════════════ BOOT ════════════════════ */
-function boot(){
-  // 1) start the render loop FIRST so the canvas always shows, even if restore fails
-  $('hudMode').className='htag teach';$('hudMode').innerHTML='🎓 TRAINING';
-  if(!boot._drawing){boot._drawing=true;draw();}
-  NN.start();
-  // 2) restore a saved session if present (guarded so an error can't blank the screen)
-  try{
-    const s=loadSession();
-    if(s&&s.school)launchApp(s);
-  }catch(e){console.error('Session restore failed:',e);}
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
-else boot();
+/* ── Boot ── */
+$('hudMode').className='htag teach';$('hudMode').textContent='🎓 LEARNING';
+draw();
 </script>
 </body>
 </html>
